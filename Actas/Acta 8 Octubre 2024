@@ -1,0 +1,60 @@
+# Acta de Reunión
+
+**Proyecto**: Gestión de Frutas Cumbres Malvinas S.L.  
+**Fecha**: _[08/10/2024]_  
+**Hora de inicio**: _[10:00]_  
+**Hora de finalización**: _[11:00]_  
+**Lugar**: _Sede Cumbres Malvinas S.L._  
+**Participantes**:
+- _Juan José Gómez - Ingeniero del Software_ 
+- _Juan Gómez - Cliente_ 
+
+
+---
+
+## 1. Orden del día
+1. _Revisión Mockups_
+2. _Presentación del dominio_
+3. _Sugerencias_
+---
+
+## 2. Discusión y decisiones
+
+### Tema 1: _Revisión Mockups_
+- **Discusión**: _Se presentan los mockups de la aplicación y el cliente sugiere nuevas mejoras/funcionalidades para añadir_
+- **Decisión**: _Se toma los apuntes de cliente y se procede a modificar los atributos que inicialmente están pensados para que incluyan los nuevos atributos definidos por el cliente, incluyendo nuevas entidades para las relaciones que nos pide el cliente (Por ejemplo la entidad "Fruta" debe tener los atributos "variedad,"calidad", "Marca", "Tipo de envase", "Tarrina"),
+El tipo de envase y la tarrina serían nuevas entidades que deben crearse y que tengan los atributos "nombre" y "peso"_
+
+### Tema 2: _Presentación del dominio_
+- **Discusión**: _Se presenta la creación del dominio y el panel de control para poder editar sus atributos_
+- **Decisión**: _Al cliente le parece buena idea y da por cerrado el tema del dominio_
+
+### Tema 3: _Sugerencias_
+- **Discusión**: _El cliente sugiere alguna nueva funcionalidad como la posibilidad de comparar las estadísticas de varios agricultores_
+- **Decisión**: _Ésta funcionalidad estaba pensada para la última parte del proyecto, se comenzará implementando las estadísticas de manera individual._
+
+---
+
+## 3. Tareas asignadas
+
+| Tarea                          | Fecha límite     |
+| ------------------------------ | ---------------- |
+| _Actualización Mockups_     | _[25/10/2024]_   |
+| _Creación documento requisitos_     | _[26/10/2024]_   |
+
+---
+
+## 4. Próxima reunión
+**Fecha y hora**: _Por determinar_  
+**Lugar**: _Por determinar_  
+**Temas a tratar**: 
+1. _Mockups actualizados_
+2. _Documento de requisitos_
+3. _Por determinar_
+
+---
+
+_Firma de los asistentes:_
+
+- _Juan José Gómez - Ingeniero del Software_ 
+- _Juan Gómez - Cliente_ 
