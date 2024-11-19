@@ -1,0 +1,27 @@
+# Bytecode compilado
+*.class
+
+# Directorio de generación 
+target/
+out/
+
+# Archivos de configuración de VS Code
+.vscode/
+
+# Archivos de log
+*.log
+
+# Archivos de compilación
+*.jar
+*.war
+*.ear
+
+# Dependencias descargadas por Maven o Gradle
+.mvn/
+.m2/
+.gradle/
+build/
+
+# Archivos de OS
+.DS_Store
+Thumbs.db
