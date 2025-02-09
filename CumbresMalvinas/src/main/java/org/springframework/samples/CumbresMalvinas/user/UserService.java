@@ -15,8 +15,6 @@
  */
 package org.springframework.samples.CumbresMalvinas.user;
 
-import java.util.Optional;
-
 import jakarta.validation.Valid;
 
 import org.springframework.beans.BeanUtils;

@@ -5,7 +5,6 @@ import { ErrorBoundary } from "react-error-boundary";
 import AppNavbar from "./AppNavbar";
 import Home from "./home";
 import PrivateRoute from "./privateRoute";
-import Register from "./auth/register";
 import Login from "./auth/login";
 import Logout from "./auth/logout";
 import tokenService from "./services/token.service";
@@ -14,6 +13,13 @@ import UserEditAdmin from "./admin/users/UserEditAdmin";
 import SwaggerDocs from "./public/swagger";
 import EmpresaListAdmin from "./admin/empresas/EmpresaListAdmin";
 import EmpresaEditAdmin from "./admin/empresas/EmpresaEditAdmin";
+import PrevisionList from "./public/previsiones/PrevisionList";
+import PrevisionEdit from "./public/previsiones/PrevisionEdit";
+import RegistroMercanciaForm from "./public/registros/RegistroMercancia";
+import EnvaseListAdmin from "./admin/envases/EnvaseListAdmin";
+import EnvaseEditAdmin from "./admin/envases/EnvaseEditAdmin";
+import FrutaListAdmin from "./admin/frutas/FrutaListAdmin";
+import FrutaEditAdmin from "./admin/frutas/FrutaEditAdmin";
 
 function ErrorFallback({ error, resetErrorBoundary }) {
   return (
@@ -48,28 +54,28 @@ function App() {
           <Route path="/users/:username" exact={true} element={<PrivateRoute><UserEditAdmin /></PrivateRoute>} />
           <Route path="/empresas" exact element={<PrivateRoute><EmpresaListAdmin /></PrivateRoute>} />
           <Route path="/empresas/:id" exact element={<PrivateRoute><EmpresaEditAdmin /></PrivateRoute>} />
-
+          <Route path="/envases" exact element={<PrivateRoute><EnvaseListAdmin /></PrivateRoute>} />
+          <Route path="/envases/:id" exact element={<PrivateRoute><EnvaseEditAdmin /></PrivateRoute>} />
+          <Route path="/frutas" exact element={<PrivateRoute><FrutaListAdmin /></PrivateRoute>} />
+          <Route path="/frutas/:id" exact element={<PrivateRoute><FrutaEditAdmin /></PrivateRoute>} />
         </>)
     }
-    // if (role === "OWNER") {
-    //   ownerRoutes = (
-    //     <>
-    //     </>)
-    // }
   })
   if (!jwt) {
     publicRoutes = (
       <>
-        <Route path="/register" element={<Register />} />
         <Route path="/login" element={<Login />} />
       </>
     )
   } else {
     userRoutes = (
       <>
-        {/* <Route path="/dashboard" element={<PrivateRoute><Dashboard /></PrivateRoute>} /> */}
         <Route path="/logout" element={<Logout />} />
         <Route path="/login" element={<Login />} />
+        <Route path="/previsiones" exact element={<PrivateRoute><PrevisionList /></PrivateRoute>} />
+        <Route path="/previsiones/:id" exact element={<PrivateRoute><PrevisionEdit /></PrivateRoute>} />
+        <Route path="/registros" exact element={<PrivateRoute><RegistroMercanciaForm /></PrivateRoute>} />
+        <Route path="/registros/:id" exact element={<PrivateRoute><RegistroMercanciaForm /></PrivateRoute>} />
       </>
     )
   }

@@ -6,8 +6,6 @@ import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Transient;
 import jakarta.persistence.Table;
-import jakarta.persistence.ManyToOne;
-import jakarta.persistence.Column;
 import org.springframework.samples.CumbresMalvinas.components.empresa.Empresa;
 import org.springframework.samples.CumbresMalvinas.components.fruta.Fruta;
 import org.springframework.samples.CumbresMalvinas.model.BaseEntity;

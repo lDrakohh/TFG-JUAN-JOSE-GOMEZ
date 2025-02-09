@@ -30,10 +30,16 @@ function AppNavbar() {
             adminLinks = (
                 <>
                     <NavItem>
-                        <NavLink style={{ color: "white" }} tag={Link} to="/users">Users</NavLink>
+                        <NavLink style={{ color: "white" }} tag={Link} to="/users">Usuarios</NavLink>
                     </NavItem>
                     <NavItem>
                         <NavLink style={{ color: "white" }} tag={Link} to="/empresas">Empresas</NavLink>
+                    </NavItem>
+                    <NavItem>
+                        <NavLink style={{ color: "white" }} tag={Link} to="/frutas">Frutas</NavLink>
+                    </NavItem>
+                    <NavItem>
+                        <NavLink style={{ color: "white" }} tag={Link} to="/envases">Envases</NavLink>
                     </NavItem>
                 </>
             )
@@ -60,6 +66,9 @@ function AppNavbar() {
     } else {
         userLinks = (
             <>
+                <NavItem>
+                    <NavLink style={{ color: "white" }} id="login" tag={Link} to="/previsiones">Previsiones</NavLink>
+                </NavItem>
             </>
         )
         userLogout = (

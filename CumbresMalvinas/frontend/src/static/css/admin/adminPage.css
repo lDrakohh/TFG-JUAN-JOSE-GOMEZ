@@ -58,3 +58,33 @@
   justify-content: space-evenly;
   align-items: center;
 }
+
+.empresa-section {
+  margin-bottom: 30px;
+  padding: 10px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+}
+
+.previsiones {
+  display: flex;
+  flex-direction: column;
+}
+
+.prevision-row {
+  display: flex;
+  margin-bottom: 15px;
+}
+
+.prevision-field {
+  margin-right: 20px;
+  flex: 1;
+}
+
+.prevision-field input {
+  width: 100px;
+}
+
+.prevision-field button {
+  margin-top: 10px;
+}
