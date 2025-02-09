@@ -33,7 +33,7 @@ function AppNavbar() {
                         <NavLink style={{ color: "white" }} tag={Link} to="/users">Users</NavLink>
                     </NavItem>
                     <NavItem>
-                        <NavLink style={{ color: "white" }} tag={Link} to="/organizaciones">Organizaciones</NavLink>
+                        <NavLink style={{ color: "white" }} tag={Link} to="/empresas">Empresas</NavLink>
                     </NavItem>
                 </>
             )
@@ -80,8 +80,8 @@ function AppNavbar() {
         <div>
             <Navbar expand="md" dark color="dark">
                 <NavbarBrand href="/">
-                    <img alt="logo" src="/logo1-recortado.png" style={{ height: 40, width: 40 }} />
-                    CumbresMalvinas
+                    <img alt="logo" src="/logo1-recortado.jpg" style={{ height: 40, width: 40 }} />
+                    <b>  </b>Cumbres Malvinas SL
                 </NavbarBrand>
                 <NavbarToggler onClick={toggleNavbar} className="ms-2" />
                 <Collapse isOpen={!collapsed} navbar>

@@ -12,11 +12,8 @@ import tokenService from "./services/token.service";
 import UserListAdmin from "./admin/users/UserListAdmin";
 import UserEditAdmin from "./admin/users/UserEditAdmin";
 import SwaggerDocs from "./public/swagger";
-import OrganizacionListAdmin from "./admin/organizaciones/OrganizacionesListAdmin";
-import OrganizacionEditAdmin from "./admin/organizaciones/OrganizacionEditAdmin";
-import MiembrosListAdmin from "./admin/miembros/MiembrosListAdmin";
-import MiembroEditAdmin from "./admin/miembros/MiembrosEditAdmin";
-import MiembroNewAdmin from "./admin/miembros/MiembrosEditAdmin";
+import EmpresaListAdmin from "./admin/empresas/EmpresaListAdmin";
+import EmpresaEditAdmin from "./admin/empresas/EmpresaEditAdmin";
 
 function ErrorFallback({ error, resetErrorBoundary }) {
   return (
@@ -49,11 +46,8 @@ function App() {
         <>
           <Route path="/users" exact={true} element={<PrivateRoute><UserListAdmin /></PrivateRoute>} />
           <Route path="/users/:username" exact={true} element={<PrivateRoute><UserEditAdmin /></PrivateRoute>} />
-          <Route path="/organizaciones" exact={true} element={<PrivateRoute><OrganizacionListAdmin /></PrivateRoute>} />
-          <Route path="/organizaciones/:organizacion" exact={true} element={<PrivateRoute><OrganizacionEditAdmin /></PrivateRoute>} />
-          <Route path="/organizaciones/:id/miembros" exact={true} element={<PrivateRoute><MiembrosListAdmin /></PrivateRoute>} />
-          <Route path="/miembros/:id/edit" exact={true} element={<PrivateRoute><MiembroEditAdmin /></PrivateRoute>} />
-          <Route path="/organizaciones/:id/miembros/new" exact={true} element={<PrivateRoute><MiembroNewAdmin /></PrivateRoute>} />
+          <Route path="/empresas" exact element={<PrivateRoute><EmpresaListAdmin /></PrivateRoute>} />
+          <Route path="/empresas/:id" exact element={<PrivateRoute><EmpresaEditAdmin /></PrivateRoute>} />
 
         </>)
     }
@@ -65,7 +59,7 @@ function App() {
   })
   if (!jwt) {
     publicRoutes = (
-      <>        
+      <>
         <Route path="/register" element={<Register />} />
         <Route path="/login" element={<Login />} />
       </>
@@ -73,7 +67,7 @@ function App() {
   } else {
     userRoutes = (
       <>
-        {/* <Route path="/dashboard" element={<PrivateRoute><Dashboard /></PrivateRoute>} /> */}        
+        {/* <Route path="/dashboard" element={<PrivateRoute><Dashboard /></PrivateRoute>} /> */}
         <Route path="/logout" element={<Logout />} />
         <Route path="/login" element={<Login />} />
       </>
