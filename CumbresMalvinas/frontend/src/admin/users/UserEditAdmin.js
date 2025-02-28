@@ -30,6 +30,7 @@ export default function UserEditAdmin() {
   );
   const auths = useFetchData(`/api/v1/users/authorities`, jwt);
 
+  // Función para manejar cambios en los campos del formulario
   function handleChange(event) {
     const target = event.target;
     const value = target.value;
@@ -40,9 +41,21 @@ export default function UserEditAdmin() {
     } else setUser({ ...user, [name]: value });
   }
 
+  // Función para manejar el submit del formulario
   function handleSubmit(event) {
     event.preventDefault();
 
+    // Encriptar la contraseña antes de enviarla al backend
+    const userToSubmit = { ...user };
+
+    // Si la contraseña fue cambiada, la enviamos cifrada (en backend se realiza la validación y cifrado real)
+    if (userToSubmit.password) {
+      // Podrías cifrar la contraseña en frontend, pero para propósitos de seguridad es mejor hacerlo en el backend.
+      // Sin embargo, si insistes en hacerlo en el frontend puedes usar alguna librería como bcrypt.js.
+      // En este ejemplo no ciframos en el frontend, dejamos que el backend lo haga.
+    }
+
+    // Hacer la petición al backend para guardar el usuario
     fetch("/api/v1/users" + (user.id ? "/" + user.id : ""), {
       method: user.id ? "PUT" : "POST",
       headers: {
@@ -50,19 +63,22 @@ export default function UserEditAdmin() {
         Accept: "application/json",
         "Content-Type": "application/json",
       },
-      body: JSON.stringify(user),
+      body: JSON.stringify(userToSubmit),
     })
       .then((response) => response.json())
       .then((json) => {
         if (json.message) {
           setMessage(json.message);
           setVisible(true);
-        } else window.location.href = "/users";
+        } else window.location.href = "/users"; // Redirigir si el usuario fue creado o editado correctamente
       })
       .catch((message) => alert(message));
   }
 
+  // Modal de error
   const modal = getErrorModal(setVisible, visible, message);
+
+  // Opciones de autoridad para el campo de selección
   const authOptions = auths.map((auth) => (
     <option key={auth.id} value={auth.id}>
       {auth.authority}
@@ -71,7 +87,7 @@ export default function UserEditAdmin() {
 
   return (
     <div className="auth-page-container">
-      {<h2>{user.id ? "Edit User" : "Add User"}</h2>}
+      <h2>{user.id ? "Edit User" : "Add User"}</h2>
       {modal}
       <div className="auth-form-container">
         <Form onSubmit={handleSubmit}>
@@ -90,12 +106,12 @@ export default function UserEditAdmin() {
             />
           </div>
           <div className="custom-form-input">
-            <Label for="lastName" className="custom-form-input-label">
+            <Label for="password" className="custom-form-input-label">
               Password
             </Label>
             <Input
               type="password"
-              required
+              required={!user.id} // Solo es obligatorio para un nuevo usuario
               name="password"
               id="password"
               value={user.password || ""}

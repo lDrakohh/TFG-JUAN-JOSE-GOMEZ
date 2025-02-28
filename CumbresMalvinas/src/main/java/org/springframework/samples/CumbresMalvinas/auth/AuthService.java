@@ -1,7 +1,5 @@
 package org.springframework.samples.CumbresMalvinas.auth;
 
-import java.util.ArrayList;
-
 import jakarta.transaction.Transactional;
 import jakarta.validation.Valid;
 
