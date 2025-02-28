@@ -8,8 +8,6 @@ import org.apache.maven.model.Developer;
 import org.apache.maven.model.Model;
 import org.apache.maven.model.io.xpp3.MavenXpp3Reader;
 import org.codehaus.plexus.util.xml.pull.XmlPullParserException;
-import org.springframework.samples.CumbresMalvinas.model.Person;
-
 
 public class DevelopersController {
     List<Developer> developers;
@@ -25,10 +23,8 @@ public class DevelopersController {
         MavenXpp3Reader reader = new MavenXpp3Reader();
         try {
             Model model = reader.read(new FileReader("pom.xml"));
-            Person p=null;
             developers=model.getDevelopers();                                            
         } catch (IOException | XmlPullParserException e) {
-            // TODO Auto-generated catch block
             e.printStackTrace();
         }
         

@@ -1,16 +1,20 @@
 package org.springframework.samples.CumbresMalvinas.components.fruta;
 
-import java.util.List;
-import java.util.Optional;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+
+import java.util.List;
+import java.util.Optional;
 
 @Service
 public class FrutaService {
 
+    private final FrutaRepository frutaRepository;
+
     @Autowired
-    private FrutaRepository frutaRepository;
+    public FrutaService(FrutaRepository frutaRepository) {
+        this.frutaRepository = frutaRepository;
+    }
 
     public List<Fruta> findAll() {
         return frutaRepository.findAll();
@@ -28,4 +32,3 @@ public class FrutaService {
         frutaRepository.deleteById(id);
     }
 }
-

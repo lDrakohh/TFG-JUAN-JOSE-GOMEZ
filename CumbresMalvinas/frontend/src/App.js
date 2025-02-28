@@ -5,18 +5,21 @@ import { ErrorBoundary } from "react-error-boundary";
 import AppNavbar from "./AppNavbar";
 import Home from "./home";
 import PrivateRoute from "./privateRoute";
-import Register from "./auth/register";
 import Login from "./auth/login";
 import Logout from "./auth/logout";
 import tokenService from "./services/token.service";
 import UserListAdmin from "./admin/users/UserListAdmin";
 import UserEditAdmin from "./admin/users/UserEditAdmin";
 import SwaggerDocs from "./public/swagger";
-import OrganizacionListAdmin from "./admin/organizaciones/OrganizacionesListAdmin";
-import OrganizacionEditAdmin from "./admin/organizaciones/OrganizacionEditAdmin";
-import MiembrosListAdmin from "./admin/miembros/MiembrosListAdmin";
-import MiembroEditAdmin from "./admin/miembros/MiembrosEditAdmin";
-import MiembroNewAdmin from "./admin/miembros/MiembrosEditAdmin";
+import EmpresaListAdmin from "./admin/empresas/EmpresaListAdmin";
+import EmpresaEditAdmin from "./admin/empresas/EmpresaEditAdmin";
+import PrevisionList from "./public/previsiones/PrevisionList";
+import PrevisionEdit from "./public/previsiones/PrevisionEdit";
+import RegistroMercanciaForm from "./public/registros/RegistroMercancia";
+import EnvaseListAdmin from "./admin/envases/EnvaseListAdmin";
+import EnvaseEditAdmin from "./admin/envases/EnvaseEditAdmin";
+import FrutaListAdmin from "./admin/frutas/FrutaListAdmin";
+import FrutaEditAdmin from "./admin/frutas/FrutaEditAdmin";
 
 function ErrorFallback({ error, resetErrorBoundary }) {
   return (
@@ -49,33 +52,30 @@ function App() {
         <>
           <Route path="/users" exact={true} element={<PrivateRoute><UserListAdmin /></PrivateRoute>} />
           <Route path="/users/:username" exact={true} element={<PrivateRoute><UserEditAdmin /></PrivateRoute>} />
-          <Route path="/organizaciones" exact={true} element={<PrivateRoute><OrganizacionListAdmin /></PrivateRoute>} />
-          <Route path="/organizaciones/:organizacion" exact={true} element={<PrivateRoute><OrganizacionEditAdmin /></PrivateRoute>} />
-          <Route path="/organizaciones/:id/miembros" exact={true} element={<PrivateRoute><MiembrosListAdmin /></PrivateRoute>} />
-          <Route path="/miembros/:id/edit" exact={true} element={<PrivateRoute><MiembroEditAdmin /></PrivateRoute>} />
-          <Route path="/organizaciones/:id/miembros/new" exact={true} element={<PrivateRoute><MiembroNewAdmin /></PrivateRoute>} />
-
+          <Route path="/empresas" exact element={<PrivateRoute><EmpresaListAdmin /></PrivateRoute>} />
+          <Route path="/empresas/:id" exact element={<PrivateRoute><EmpresaEditAdmin /></PrivateRoute>} />
+          <Route path="/envases" exact element={<PrivateRoute><EnvaseListAdmin /></PrivateRoute>} />
+          <Route path="/envases/:id" exact element={<PrivateRoute><EnvaseEditAdmin /></PrivateRoute>} />
+          <Route path="/frutas" exact element={<PrivateRoute><FrutaListAdmin /></PrivateRoute>} />
+          <Route path="/frutas/:id" exact element={<PrivateRoute><FrutaEditAdmin /></PrivateRoute>} />
         </>)
     }
-    // if (role === "OWNER") {
-    //   ownerRoutes = (
-    //     <>
-    //     </>)
-    // }
   })
   if (!jwt) {
     publicRoutes = (
-      <>        
-        <Route path="/register" element={<Register />} />
+      <>
         <Route path="/login" element={<Login />} />
       </>
     )
   } else {
     userRoutes = (
       <>
-        {/* <Route path="/dashboard" element={<PrivateRoute><Dashboard /></PrivateRoute>} /> */}        
         <Route path="/logout" element={<Logout />} />
         <Route path="/login" element={<Login />} />
+        <Route path="/previsiones" exact element={<PrivateRoute><PrevisionList /></PrivateRoute>} />
+        <Route path="/previsiones/:id" exact element={<PrivateRoute><PrevisionEdit /></PrivateRoute>} />
+        <Route path="/registros" exact element={<PrivateRoute><RegistroMercanciaForm /></PrivateRoute>} />
+        <Route path="/registros/:id" exact element={<PrivateRoute><RegistroMercanciaForm /></PrivateRoute>} />
       </>
     )
   }

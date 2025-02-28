@@ -30,10 +30,16 @@ function AppNavbar() {
             adminLinks = (
                 <>
                     <NavItem>
-                        <NavLink style={{ color: "white" }} tag={Link} to="/users">Users</NavLink>
+                        <NavLink style={{ color: "white" }} tag={Link} to="/users">Usuarios</NavLink>
                     </NavItem>
                     <NavItem>
-                        <NavLink style={{ color: "white" }} tag={Link} to="/organizaciones">Organizaciones</NavLink>
+                        <NavLink style={{ color: "white" }} tag={Link} to="/empresas">Empresas</NavLink>
+                    </NavItem>
+                    <NavItem>
+                        <NavLink style={{ color: "white" }} tag={Link} to="/frutas">Frutas</NavLink>
+                    </NavItem>
+                    <NavItem>
+                        <NavLink style={{ color: "white" }} tag={Link} to="/envases">Envases</NavLink>
                     </NavItem>
                 </>
             )
@@ -60,6 +66,9 @@ function AppNavbar() {
     } else {
         userLinks = (
             <>
+                <NavItem>
+                    <NavLink style={{ color: "white" }} id="login" tag={Link} to="/previsiones">Previsiones</NavLink>
+                </NavItem>
             </>
         )
         userLogout = (
@@ -80,8 +89,8 @@ function AppNavbar() {
         <div>
             <Navbar expand="md" dark color="dark">
                 <NavbarBrand href="/">
-                    <img alt="logo" src="/logo1-recortado.png" style={{ height: 40, width: 40 }} />
-                    CumbresMalvinas
+                    <img alt="logo" src="/logo1-recortado.jpg" style={{ height: 40, width: 40 }} />
+                    <b>  </b>Cumbres Malvinas SL
                 </NavbarBrand>
                 <NavbarToggler onClick={toggleNavbar} className="ms-2" />
                 <Collapse isOpen={!collapsed} navbar>

@@ -3,7 +3,7 @@ import getDeleteAlertsOrModal from "./getDeleteAlertsOrModal";
 
 export default function deleteFromList(url, id, [state, setState], [alerts, setAlerts], setMessage, setVisible, options = {}) {
     const jwt = tokenService.getLocalAccessToken();
-    let confirmMessage = window.confirm("Are you sure you want to delete it?");
+    let confirmMessage = window.confirm("¿Seguro que quieres borrarlo?");
     if (confirmMessage) {
         fetch(url, {
             method: "DELETE",

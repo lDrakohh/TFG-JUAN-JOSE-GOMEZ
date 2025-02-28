@@ -9,6 +9,7 @@ import jakarta.persistence.Table;
 import java.time.LocalDate;
 
 import org.springframework.samples.CumbresMalvinas.components.prevision.Prevision;
+import org.springframework.samples.CumbresMalvinas.model.BaseEntity;
 
 import lombok.Getter;
 import lombok.Setter;
@@ -17,7 +18,7 @@ import lombok.Setter;
 @Setter
 @Entity
 @Table(name = "registros_mercancia")
-public class RegistroMercancia {
+public class RegistroMercancia extends BaseEntity{
 
     @ManyToOne(optional = false)
     @JoinColumn(name = "prevision_id", nullable = false)
@@ -27,6 +28,6 @@ public class RegistroMercancia {
     private Integer cantidadTraida;
 
     @Column(nullable = false)
-    private LocalDate fecha;  // Fecha del movimiento
+    private LocalDate fecha;
 
 }
