@@ -56,20 +56,53 @@ export default function PrevisionList() {
     }).then(() => window.location.reload());
   }
 
+  function handleDeleteRegistro(registroId, empresaId) {
+    if (!window.confirm("¿Seguro que deseas eliminar este registro?")) return;
+  
+    fetch(`/api/v1/registros/${registroId}`, {
+      method: "DELETE",
+      headers: { Authorization: `Bearer ${jwt}` },
+    })
+      .then(() => {
+        // Actualizar registros
+        return fetch(`/api/v1/registros/empresa/${empresaId}`, { headers: { Authorization: `Bearer ${jwt}` } });
+      })
+      .then((res) => res.json())
+      .then((data) => {
+        setRegistros((prev) => ({ ...prev, [empresaId]: data }));
+  
+        // Actualizar previsiones después de eliminar registros
+        return fetch("/api/v1/previsiones", { headers: { Authorization: `Bearer ${jwt}` } });
+      })
+      .then((res) => res.json())
+      .then(setPrevisiones)
+      .catch((error) => console.error("Error eliminando el registro:", error));
+  }
+  
+
   function handleSubmitRegistro(previsionId, empresaId) {
     const cantidadTraida = nuevosRegistros[previsionId] || 0;
+  
     fetch(`/api/v1/registros/${previsionId}?cantidadTraida=${cantidadTraida}`, {
       method: "POST",
       headers: { Authorization: `Bearer ${jwt}`, "Content-Type": "application/json" },
-    }).then(() => {
-      // Actualizar los registros sin recargar toda la página
-      fetch(`/api/v1/registros/empresa/${empresaId}`, { headers: { Authorization: `Bearer ${jwt}` } })
-        .then((res) => res.json())
-        .then((data) => {
-          setRegistros((prev) => ({ ...prev, [empresaId]: data }));
-        });
-    });
+    })
+      .then(() => {
+        // Actualizar registros
+        return fetch(`/api/v1/registros/empresa/${empresaId}`, { headers: { Authorization: `Bearer ${jwt}` } });
+      })
+      .then((res) => res.json())
+      .then((data) => {
+        setRegistros((prev) => ({ ...prev, [empresaId]: data }));
+        
+        //Actualizar previsiones después de modificar registros
+        return fetch("/api/v1/previsiones", { headers: { Authorization: `Bearer ${jwt}` } });
+      })
+      .then((res) => res.json())
+      .then(setPrevisiones)
+      .catch((error) => console.error("Error registrando mercancía:", error));
   }
+  
 
   return (
     <div className="admin-page-container">
@@ -135,6 +168,7 @@ export default function PrevisionList() {
                   <th>Fecha</th>
                   <th>Tipo</th>
                   <th>Cantidad</th>
+                  <th>Acciones</th>
                 </tr>
               </thead>
               <tbody>
@@ -143,6 +177,11 @@ export default function PrevisionList() {
                     <td>{registro.fecha}</td>
                     <td>{registro.prevision.fruta.envase ? registro.prevision.fruta.envase.nombre : "N/A"}</td>
                     <td>{registro.cantidadTraida}</td>
+                    <td>
+                      <Button size="sm" color="danger" onClick={() => handleDeleteRegistro(registro.id, empresa.id)}>
+                        🗑️
+                      </Button>
+                    </td>
                   </tr>
                 ))}
               </tbody>

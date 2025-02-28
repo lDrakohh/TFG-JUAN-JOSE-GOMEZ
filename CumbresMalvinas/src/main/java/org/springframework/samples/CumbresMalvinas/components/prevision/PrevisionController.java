@@ -26,6 +26,13 @@ public class PrevisionController {
         return ResponseEntity.ok(previsiones);
     }
 
+    @GetMapping("/hoy")
+    public ResponseEntity<List<Prevision>> getPrevisionesDeHoy() {
+        LocalDate hoy = LocalDate.now();
+        List<Prevision> previsiones = previsionService.findByFecha(hoy);
+        return ResponseEntity.ok(previsiones);
+    }
+
     @GetMapping("/{id}")
     public ResponseEntity<Prevision> getPrevisionById(@PathVariable Integer id) {
         Optional<Prevision> prevision = previsionService.findById(id);

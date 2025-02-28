@@ -2,6 +2,7 @@ package org.springframework.samples.CumbresMalvinas.components.registro;
 
 import java.time.LocalDate;
 import java.util.List;
+import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -51,4 +52,21 @@ public class RegistroMercanciaService {
 
         previsionRepository.save(prevision);
     }
+
+    public Optional<RegistroMercancia> findById(Integer id) {
+        return registroMercanciaRepository.findById(id);
+    }
+
+    public RegistroMercancia save(RegistroMercancia prevision) {
+        return registroMercanciaRepository.save(prevision);
+    }
+
+    public void deleteById(Integer id) {
+        registroMercanciaRepository.deleteById(id);
+    }
+
+    public List<RegistroMercancia> findByFecha(LocalDate hoy) {
+        return registroMercanciaRepository.findByFecha(hoy);
+    }
+
 }

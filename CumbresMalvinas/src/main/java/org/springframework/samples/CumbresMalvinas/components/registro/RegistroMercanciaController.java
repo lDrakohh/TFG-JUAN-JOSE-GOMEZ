@@ -43,6 +43,13 @@ public class RegistroMercanciaController {
         return ResponseEntity.ok(registros);
     }
 
+    @GetMapping("/hoy")
+    public ResponseEntity<List<RegistroMercancia>> getRegistrosDeHoy() {
+        LocalDate hoy = LocalDate.now();
+        List<RegistroMercancia> registros = registroMercanciaService.findByFecha(hoy);
+        return ResponseEntity.ok(registros);
+    }
+
     // Registrar el registro de mercancía para una previsión específica
     @PostMapping("/{previsionId}")
     public ResponseEntity<RegistroMercancia> registrarRegistro(@PathVariable Integer previsionId,
@@ -53,6 +60,27 @@ public class RegistroMercanciaController {
             Prevision prevision = previsionOptional.get();
             RegistroMercancia registro = registroMercanciaService.registrarRegistro(prevision, cantidadTraida);
             return ResponseEntity.ok(registro);
+        } else {
+            return ResponseEntity.notFound().build();
+        }
+    }
+
+    @DeleteMapping("/{id}")
+    public ResponseEntity<Void> deleteRegistro(@PathVariable Integer id) {
+        Optional<RegistroMercancia> registroOptional = registroMercanciaService.findById(id);
+
+        if (registroOptional.isPresent()) {
+            RegistroMercancia registro = registroOptional.get();
+            Prevision prevision = registro.getPrevision();
+
+            prevision.setPrevTraidas(prevision.getPrevTraidas() - registro.getCantidadTraida());
+            prevision.setPrevFaltantes(prevision.getPrevisto() - prevision.getPrevTraidas());
+
+            previsionService.save(prevision);
+
+            registroMercanciaService.deleteById(id);
+
+            return ResponseEntity.noContent().build();
         } else {
             return ResponseEntity.notFound().build();
         }
