@@ -100,14 +100,12 @@ export default function PrevisionList() {
       if (!response.ok) {
         throw new Error("Error al eliminar el registro");
       }
-
-      //Recargar previsiones y registros
       cargarPrevisiones();
       cargarRegistros();
     } catch (error) {
       console.error("Error eliminando registro:", error);
     }
-  };
+};
 
   return (
     <div className="admin-page-container">
