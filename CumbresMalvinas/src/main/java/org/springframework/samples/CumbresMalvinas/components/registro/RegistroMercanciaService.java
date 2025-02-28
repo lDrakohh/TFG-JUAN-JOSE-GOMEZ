@@ -1,6 +1,7 @@
 package org.springframework.samples.CumbresMalvinas.components.registro;
 
 import java.time.LocalDate;
+import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -18,6 +19,15 @@ public class RegistroMercanciaService {
         this.registroMercanciaRepository = registroMercanciaRepository;
         this.previsionRepository = previsionRepository;
     }
+
+    public List<RegistroMercancia> findByEmpresaAndFecha(Integer empresaId, LocalDate fecha) {
+        return registroMercanciaRepository.findByEmpresaAndFecha(empresaId, fecha);
+    }
+    
+    public List<RegistroMercancia> findByEmpresa(Integer empresaId) {
+        return registroMercanciaRepository.findByEmpresa(empresaId);
+    }
+    
 
     // Registrar un movimiento de mercancía y actualizar la previsión
     public RegistroMercancia registrarRegistro(Prevision prevision, Integer cantidadTraida) {

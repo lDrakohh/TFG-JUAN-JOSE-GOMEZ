@@ -28,6 +28,6 @@ public class RegistroMercancia extends BaseEntity{
     private Integer cantidadTraida;
 
     @Column(nullable = false)
-    private LocalDate fecha;  // Fecha del movimiento
+    private LocalDate fecha;
 
 }

@@ -48,7 +48,6 @@ public class Prevision extends BaseEntity {
         return "Tipo no definido";
     }
 
-    // Método para actualizar las previsiones cuando se traen mercancías
     public void actualizarPrevision(Integer cantidadTraida) {
         this.prevTraidas += cantidadTraida;
         this.prevFaltantes = Math.max(this.prevFaltantes - cantidadTraida, 0);  // No cantidades negativas
