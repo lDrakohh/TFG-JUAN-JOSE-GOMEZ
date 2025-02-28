@@ -1,7 +1,6 @@
 package org.springframework.samples.CumbresMalvinas.components.registro;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -33,7 +32,6 @@ public class RegistroMercanciaController {
         return ResponseEntity.ok(registros);
     }
 
-    // ✅ Nuevo endpoint para registrar mercancía
     @PostMapping("/{previsionId}")
     public ResponseEntity<RegistroMercancia> registrarRegistro(
             @PathVariable Integer previsionId,

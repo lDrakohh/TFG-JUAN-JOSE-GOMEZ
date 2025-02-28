@@ -29,7 +29,6 @@ export default function FrutaEditAdmin() {
         .then(setFruta);
     }
 
-    // Obtener los envases disponibles
     fetch(`/api/v1/envases`, {
       headers: {
         Authorization: `Bearer ${jwt}`,

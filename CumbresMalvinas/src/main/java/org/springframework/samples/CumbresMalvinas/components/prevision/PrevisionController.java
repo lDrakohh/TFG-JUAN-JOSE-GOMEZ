@@ -41,7 +41,7 @@ public class PrevisionController {
 
     @GetMapping("/fecha/{fecha}")
     public ResponseEntity<List<Prevision>> getPrevisionesByFecha(@PathVariable String fecha) {
-        LocalDate parsedFecha = LocalDate.parse(fecha);  // Convierte la fecha de String a LocalDate
+        LocalDate parsedFecha = LocalDate.parse(fecha);
         List<Prevision> previsiones = previsionService.findByFecha(parsedFecha);
         return ResponseEntity.ok(previsiones);
     }
@@ -50,7 +50,7 @@ public class PrevisionController {
     public ResponseEntity<List<Prevision>> getPrevisionesByEmpresaAndFecha(@PathVariable Integer empresaId, @PathVariable String fecha) {
         LocalDate parsedFecha = LocalDate.parse(fecha);
         Empresa empresa = new Empresa();
-        empresa.setId(empresaId);  // Asegúrate de obtener la empresa por ID correctamente
+        empresa.setId(empresaId);
         List<Prevision> previsiones = previsionService.findByEmpresaAndFecha(empresa, parsedFecha);
         return ResponseEntity.ok(previsiones);
     }

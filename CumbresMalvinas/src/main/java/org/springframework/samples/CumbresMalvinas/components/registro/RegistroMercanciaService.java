@@ -29,7 +29,7 @@ public class RegistroMercanciaService {
         registro.setCantidadTraida(cantidadTraida);
         registro.setFecha(LocalDate.now());
 
-        // 🔹 Actualizar los valores de la previsión
+        // Actualizar los valores de la previsión
         int nuevasTraidas = prevision.getPrevTraidas() + cantidadTraida;
         int nuevasFaltantes = prevision.getPrevisto() - nuevasTraidas;
 
