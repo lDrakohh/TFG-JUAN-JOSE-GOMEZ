@@ -6,67 +6,50 @@ import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.samples.CumbresMalvinas.components.prevision.Prevision;
-import org.springframework.samples.CumbresMalvinas.components.prevision.PrevisionRepository;
+import org.springframework.samples.CumbresMalvinas.components.prevision.PrevisionService;
 
 @Service
 public class RegistroMercanciaService {
 
     private final RegistroMercanciaRepository registroMercanciaRepository;
-    private final PrevisionRepository previsionRepository;
+    private final PrevisionService previsionService;
 
     @Autowired
-    public RegistroMercanciaService(RegistroMercanciaRepository registroMercanciaRepository, PrevisionRepository previsionRepository) {
+    public RegistroMercanciaService(RegistroMercanciaRepository registroMercanciaRepository, PrevisionService previsionService) {
         this.registroMercanciaRepository = registroMercanciaRepository;
-        this.previsionRepository = previsionRepository;
+        this.previsionService = previsionService;
     }
 
-    public List<RegistroMercancia> findByEmpresaAndFecha(Integer empresaId, LocalDate fecha) {
-        return registroMercanciaRepository.findByEmpresaAndFecha(empresaId, fecha);
-    }
-    
-    public List<RegistroMercancia> findByEmpresa(Integer empresaId) {
-        return registroMercanciaRepository.findByEmpresa(empresaId);
-    }
-    
-
-    // Registrar un movimiento de mercancía y actualizar la previsión
+    @Transactional
     public RegistroMercancia registrarRegistro(Prevision prevision, Integer cantidadTraida) {
         RegistroMercancia registro = new RegistroMercancia();
         registro.setPrevision(prevision);
         registro.setCantidadTraida(cantidadTraida);
-        registro.setFecha(LocalDate.now()); 
+        registro.setFecha(LocalDate.now());
 
-        actualizarPrevision(prevision, cantidadTraida);
+        // 🔹 Actualizar los valores de la previsión
+        int nuevasTraidas = prevision.getPrevTraidas() + cantidadTraida;
+        int nuevasFaltantes = prevision.getPrevisto() - nuevasTraidas;
+
+        prevision.setPrevTraidas(nuevasTraidas);
+        prevision.setPrevFaltantes(nuevasFaltantes);
+
+        previsionService.save(prevision);
 
         return registroMercanciaRepository.save(registro);
     }
 
-    // Método para actualizar los campos de la previsión
-    private void actualizarPrevision(Prevision prevision, Integer cantidadTraida) {
-        Integer prevTraidas = prevision.getPrevTraidas();
-        Integer prevFaltantes = prevision.getPrevFaltantes();
-
-        prevision.setPrevTraidas(prevTraidas + cantidadTraida);
-        prevision.setPrevFaltantes(Math.max(prevFaltantes - cantidadTraida, 0));
-
-        previsionRepository.save(prevision);
+    public List<RegistroMercancia> findByEmpresaAndFecha(Integer empresaId, LocalDate fecha) {
+        return registroMercanciaRepository.findByEmpresaAndFecha(empresaId, fecha);
     }
 
     public Optional<RegistroMercancia> findById(Integer id) {
         return registroMercanciaRepository.findById(id);
     }
 
-    public RegistroMercancia save(RegistroMercancia prevision) {
-        return registroMercanciaRepository.save(prevision);
-    }
-
     public void deleteById(Integer id) {
         registroMercanciaRepository.deleteById(id);
     }
-
-    public List<RegistroMercancia> findByFecha(LocalDate hoy) {
-        return registroMercanciaRepository.findByFecha(hoy);
-    }
-
 }

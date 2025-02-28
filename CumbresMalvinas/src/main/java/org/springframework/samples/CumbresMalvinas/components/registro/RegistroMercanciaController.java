@@ -17,48 +17,33 @@ import java.util.Optional;
 public class RegistroMercanciaController {
 
     private final RegistroMercanciaService registroMercanciaService;
-
     private final PrevisionService previsionService;
 
     @Autowired
     public RegistroMercanciaController(RegistroMercanciaService registroMercanciaService,
-            PrevisionService previsionService) {
+                                       PrevisionService previsionService) {
         this.registroMercanciaService = registroMercanciaService;
         this.previsionService = previsionService;
     }
 
-    @GetMapping("/empresa/{empresaId}")
-    public ResponseEntity<List<RegistroMercancia>> getRegistrosByEmpresaAndFecha(
-            @PathVariable Integer empresaId,
-            @RequestParam(required = false) @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate fecha) {
-
-        List<RegistroMercancia> registros;
-
-        if (fecha != null) {
-            registros = registroMercanciaService.findByEmpresaAndFecha(empresaId, fecha);
-        } else {
-            registros = registroMercanciaService.findByEmpresa(empresaId);
-        }
-
-        return ResponseEntity.ok(registros);
-    }
-
-    @GetMapping("/hoy")
-    public ResponseEntity<List<RegistroMercancia>> getRegistrosDeHoy() {
+    @GetMapping("/empresa/{empresaId}/hoy")
+    public ResponseEntity<List<RegistroMercancia>> getRegistrosDeHoyPorEmpresa(@PathVariable Integer empresaId) {
         LocalDate hoy = LocalDate.now();
-        List<RegistroMercancia> registros = registroMercanciaService.findByFecha(hoy);
+        List<RegistroMercancia> registros = registroMercanciaService.findByEmpresaAndFecha(empresaId, hoy);
         return ResponseEntity.ok(registros);
     }
 
-    // Registrar el registro de mercancía para una previsión específica
+    // ✅ Nuevo endpoint para registrar mercancía
     @PostMapping("/{previsionId}")
-    public ResponseEntity<RegistroMercancia> registrarRegistro(@PathVariable Integer previsionId,
-            @RequestParam Integer cantidadTraida) {
+    public ResponseEntity<RegistroMercancia> registrarRegistro(
+            @PathVariable Integer previsionId,
+            @RequestBody RegistroRequest request) {
+
         Optional<Prevision> previsionOptional = previsionService.findById(previsionId);
 
         if (previsionOptional.isPresent()) {
             Prevision prevision = previsionOptional.get();
-            RegistroMercancia registro = registroMercanciaService.registrarRegistro(prevision, cantidadTraida);
+            RegistroMercancia registro = registroMercanciaService.registrarRegistro(prevision, request.getCantidadTraida());
             return ResponseEntity.ok(registro);
         } else {
             return ResponseEntity.notFound().build();
@@ -77,12 +62,24 @@ public class RegistroMercanciaController {
             prevision.setPrevFaltantes(prevision.getPrevisto() - prevision.getPrevTraidas());
 
             previsionService.save(prevision);
-
             registroMercanciaService.deleteById(id);
 
             return ResponseEntity.noContent().build();
         } else {
             return ResponseEntity.notFound().build();
+        }
+    }
+
+    // DTO para el JSON 
+    public static class RegistroRequest {
+        private Integer cantidadTraida;
+
+        public Integer getCantidadTraida() {
+            return cantidadTraida;
+        }
+
+        public void setCantidadTraida(Integer cantidadTraida) {
+            this.cantidadTraida = cantidadTraida;
         }
     }
 }

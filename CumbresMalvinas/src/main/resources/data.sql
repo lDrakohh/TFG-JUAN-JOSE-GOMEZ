@@ -15,6 +15,6 @@ INSERT INTO envases(id, nombre, peso_gramos) VALUES (3, 'EXP - 3KGs', 3000);
 INSERT INTO frutas(id, variedad, calidad, marca, envase_id) VALUES (1, 'Fresa', 'Primera', 'Fortuna', 1);
 INSERT INTO frutas(id, variedad, calidad, marca, envase_id) VALUES (2, 'Fresa', 'Segunda', '101', 2);
 
-INSERT INTO previsiones(id, empresa_id, fruta_id, previsto, prev_traidas, prev_faltantes, fecha) VALUES (1, 1, 1, 100, 50, 50, '2024-02-28');
+INSERT INTO previsiones(id, empresa_id, fruta_id, previsto, prev_traidas, prev_faltantes, fecha) VALUES (1, 1, 1, 100, 50, 50, '2025-02-28');
 
-INSERT INTO registros_mercancia(id, prevision_id, cantidad_traida,fecha) VALUES (1, 1, 50, '2024-02-28');
+INSERT INTO registros_mercancia(id, prevision_id, cantidad_traida,fecha) VALUES (1, 1, 50, '2025-02-28');
