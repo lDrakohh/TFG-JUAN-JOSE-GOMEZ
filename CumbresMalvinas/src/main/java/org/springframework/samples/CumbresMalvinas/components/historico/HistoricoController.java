@@ -6,6 +6,7 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.http.ResponseEntity;
 
 import java.time.LocalDate;
+import java.util.List;
 import java.util.Optional;
 
 @RestController
@@ -18,17 +19,18 @@ public class HistoricoController {
         this.historicoService = historicoService;
     }
 
-    @GetMapping("/{empresaId}")
+    @GetMapping
     public ResponseEntity<?> obtenerHistorico(
-            @PathVariable Integer empresaId,
-            @RequestParam String inicio,
-            @RequestParam String fin) {
+            @RequestParam List<Integer> empresas,
+            @RequestParam LocalDate inicio,
+            @RequestParam LocalDate fin) {
 
-        LocalDate fechaInicio = LocalDate.parse(inicio);
-        LocalDate fechaFin = LocalDate.parse(fin);
+        if (inicio.isAfter(fin)) {
+            return ResponseEntity.badRequest().body("La fecha de inicio no puede ser posterior a la fecha de fin.");
+        }
 
-        Optional<HistoricoResponse> historico = historicoService.obtenerHistorico(empresaId, fechaInicio, fechaFin);
-
-        return historico.map(ResponseEntity::ok).orElseGet(() -> ResponseEntity.notFound().build());
+        Optional<HistoricoResponse> historico = historicoService.obtenerHistorico(empresas, inicio, fin);
+        return historico.map(ResponseEntity::ok).orElseGet(() -> ResponseEntity.noContent().build());
     }
 }
+

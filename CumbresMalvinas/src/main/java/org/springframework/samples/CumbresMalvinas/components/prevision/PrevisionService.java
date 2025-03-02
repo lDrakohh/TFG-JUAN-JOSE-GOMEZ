@@ -42,8 +42,8 @@ public class PrevisionService {
         return previsionRepository.findByEmpresaAndFecha(empresa, fecha);
     }
 
-    public List<Prevision> findByEmpresaAndFechaBetween(Empresa empresa, LocalDate inicio, LocalDate fin) {
-        return previsionRepository.findByEmpresaAndFechaBetween(empresa.getId(), inicio, fin);
+    public List<Prevision> findByEmpresaAndFechaBetween(List<Integer> empresaIds, LocalDate inicio, LocalDate fin) {
+        return previsionRepository.findByEmpresaAndFechaBetween(empresaIds, inicio, fin);
     }    
     
 }
