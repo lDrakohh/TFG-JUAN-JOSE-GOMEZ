@@ -3,6 +3,9 @@ package org.springframework.samples.CumbresMalvinas.components.prevision;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.samples.CumbresMalvinas.components.empresa.Empresa;
+import org.springframework.samples.CumbresMalvinas.components.empresa.EmpresaService;
+import org.springframework.samples.CumbresMalvinas.components.fruta.Fruta;
+import org.springframework.samples.CumbresMalvinas.components.fruta.FrutaService;
 import org.springframework.web.bind.annotation.*;
 
 import java.time.LocalDate;
@@ -14,10 +17,15 @@ import java.util.Optional;
 public class PrevisionController {
 
     private final PrevisionService previsionService;
+    private final FrutaService frutaService;
+    private final EmpresaService empresaService;
+
 
     @Autowired
-    public PrevisionController(PrevisionService previsionService) {
+    public PrevisionController(PrevisionService previsionService, FrutaService frutaService, EmpresaService empresaService ) {
         this.previsionService = previsionService;
+        this.empresaService =empresaService;
+        this.frutaService = frutaService;
     }
 
     @GetMapping
@@ -55,11 +63,39 @@ public class PrevisionController {
         return ResponseEntity.ok(previsiones);
     }
 
-    @PostMapping
-    public ResponseEntity<Prevision> createPrevision(@RequestBody Prevision prevision) {
-        Prevision nuevaPrevision = previsionService.save(prevision);
-        return ResponseEntity.ok(nuevaPrevision);
+@PostMapping
+public ResponseEntity<?> createPrevision(@RequestBody PrevisionDTO previsionDTO) {
+    if (previsionDTO.getEmpresaId() == null) {
+        return ResponseEntity.badRequest().body("El campo empresaId es obligatorio.");
     }
+
+    Empresa empresa = empresaService.findById(previsionDTO.getEmpresaId())
+    .orElseThrow(() -> new RuntimeException("Fruta no encontrada"));
+    
+    if (empresa == null) {
+        return ResponseEntity.badRequest().body("Empresa no encontrada.");
+    }
+
+    Fruta fruta = frutaService.findById(previsionDTO.getFrutaId())
+        .orElseThrow(() -> new RuntimeException("Fruta no encontrada"));
+
+    if (fruta == null) {
+        return ResponseEntity.badRequest().body("Fruta no encontrada.");
+    }
+
+    Prevision nuevaPrevision = new Prevision();
+    nuevaPrevision.setEmpresa(empresa);
+    nuevaPrevision.setFruta(fruta);
+    nuevaPrevision.setPrevisto(previsionDTO.getPrevisto());
+    nuevaPrevision.setPrevTraidas(0);
+    nuevaPrevision.setPrevFaltantes(previsionDTO.getPrevisto());
+    nuevaPrevision.setFecha(LocalDate.now());
+
+    previsionService.save(nuevaPrevision);
+
+    return ResponseEntity.ok(nuevaPrevision);
+}
+
 
     @PutMapping("/{id}")
     public ResponseEntity<Prevision> updatePrevision(@PathVariable Integer id, @RequestBody Prevision previsionDetails) {
