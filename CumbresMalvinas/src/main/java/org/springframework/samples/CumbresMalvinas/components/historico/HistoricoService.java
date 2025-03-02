@@ -24,13 +24,13 @@ public class HistoricoService {
         this.registroMercanciaRepository = registroMercanciaRepository;
     }
 
-    public Optional<HistoricoResponse> obtenerHistorico(Integer empresaId, LocalDate inicio, LocalDate fin) {
+    public Optional<HistoricoResponse> obtenerHistorico(List<Integer> empresaIds, LocalDate inicio, LocalDate fin) {
 
         if (inicio.isAfter(fin)) {
             throw new IllegalArgumentException("La fecha de inicio no puede ser posterior a la fecha de fin.");
         }
-        List<Prevision> previsiones = previsionRepository.findByEmpresaAndFechaBetween(empresaId, inicio, fin);
-        List<RegistroMercancia> registros = registroMercanciaRepository.findByEmpresaAndFechaHistorico(empresaId,
+        List<Prevision> previsiones = previsionRepository.findByEmpresaAndFechaBetween(empresaIds, inicio, fin);
+        List<RegistroMercancia> registros = registroMercanciaRepository.findByEmpresaAndFechaHistorico(empresaIds,
                 inicio, fin);
 
         System.out.println("Previsiones encontradas: " + previsiones.size());

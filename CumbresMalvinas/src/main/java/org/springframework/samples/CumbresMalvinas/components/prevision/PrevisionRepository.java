@@ -16,8 +16,8 @@ public interface PrevisionRepository extends JpaRepository<Prevision, Integer> {
 
     List<Prevision> findByEmpresaAndFecha(Empresa empresa, LocalDate fecha);
 
-    @Query("SELECT p FROM Prevision p WHERE p.empresa.id = :empresaId AND p.fecha BETWEEN :inicio AND :fin")
-    List<Prevision> findByEmpresaAndFechaBetween(@Param("empresaId") Integer empresaId,
+    @Query("SELECT p FROM Prevision p WHERE p.empresa.id IN :empresaIds AND p.fecha BETWEEN :inicio AND :fin")
+    List<Prevision> findByEmpresaAndFechaBetween(@Param("empresaIds") List<Integer> empresaIds,
             @Param("inicio") LocalDate inicio,
             @Param("fin") LocalDate fin);
 }

@@ -7,7 +7,7 @@ const jwt = tokenService.getLocalAccessToken();
 
 export default function HistoricoList() {
     const [empresas, setEmpresas] = useState([]);
-    const [empresaSeleccionada, setEmpresaSeleccionada] = useState("");
+    const [empresasSeleccionadas, setEmpresasSeleccionadas] = useState([]);
     const [fechaInicio, setFechaInicio] = useState("");
     const [fechaFin, setFechaFin] = useState("");
     const [historico, setHistorico] = useState([]);
@@ -19,9 +19,17 @@ export default function HistoricoList() {
             .catch((err) => console.error("Error cargando empresas:", err));
     }, []);
 
+    const handleCheckboxChange = (e, empresaId) => {
+        setEmpresasSeleccionadas((prevSeleccionadas) =>
+            e.target.checked
+                ? [...prevSeleccionadas, empresaId]
+                : prevSeleccionadas.filter(id => id !== empresaId)
+        );
+    };
+
     const buscarHistorico = async () => {
-        if (!empresaSeleccionada || !fechaInicio || !fechaFin) {
-            alert("Seleccione una empresa y un rango de fechas");
+        if (empresasSeleccionadas.length === 0 || !fechaInicio || !fechaFin) {
+            alert("Seleccione al menos una empresa y un rango de fechas");
             return;
         }
 
@@ -31,8 +39,9 @@ export default function HistoricoList() {
         }
 
         try {
+            const empresaIds = empresasSeleccionadas.join(",");
             const response = await fetch(
-                `/api/v1/historico/${empresaSeleccionada}?inicio=${fechaInicio}&fin=${fechaFin}`,
+                `/api/v1/historico?empresas=${empresaIds}&inicio=${fechaInicio}&fin=${fechaFin}`,
                 { headers: { Authorization: `Bearer ${jwt}` } }
             );
             if (!response.ok) throw new Error("Error obteniendo datos");
@@ -48,12 +57,19 @@ export default function HistoricoList() {
         <div className="admin-page-container">
             <h1 className="text-center">Histórico de Previsiones y Registros</h1>
             <div className="filters">
-                <Input type="select" value={empresaSeleccionada} onChange={(e) => setEmpresaSeleccionada(e.target.value)}>
-                    <option value="">Seleccione una empresa</option>
+                <div className="empresa-checkboxes">
                     {empresas.map((emp) => (
-                        <option key={emp.id} value={emp.id}>{emp.nombreEmpresa}</option>
+                        <label key={emp.id} className="checkbox-label">
+                            <input
+                                type="checkbox"
+                                value={emp.id}
+                                checked={empresasSeleccionadas.includes(emp.id)}
+                                onChange={(e) => handleCheckboxChange(e, emp.id)}
+                            />
+                            {emp.nombreEmpresa}
+                        </label>
                     ))}
-                </Input>
+                </div>
                 <Input type="date" value={fechaInicio} onChange={(e) => setFechaInicio(e.target.value)} />
                 <Input type="date" value={fechaFin} onChange={(e) => setFechaFin(e.target.value)} />
                 <Button color="primary" onClick={buscarHistorico}>Buscar</Button>
@@ -62,6 +78,7 @@ export default function HistoricoList() {
                 <thead>
                     <tr>
                         <th>Fecha</th>
+                        <th>Empresa</th>
                         <th>Fruta</th>
                         <th>Previsto</th>
                         <th>Traído</th>
@@ -73,6 +90,7 @@ export default function HistoricoList() {
                             <React.Fragment key={`prevision-${prevision.id}`}>
                                 <tr className="prevision-row">
                                     <td>{prevision.fecha}</td>
+                                    <td>{prevision.empresa?.nombreEmpresa || "N/A"}</td>
                                     <td>{prevision.fruta?.variedad || "N/A"}</td>
                                     <td>{prevision.previsto}</td>
                                     <td>-</td>
@@ -82,6 +100,7 @@ export default function HistoricoList() {
                                     .map((registro) => (
                                         <tr key={`registro-${registro.id}`} className="registro-row">
                                             <td className="registro-indent">↳ {registro.fecha}</td>
+                                            <td>{registro.prevision?.empresa?.nombreEmpresa || "N/A"}</td>
                                             <td>{registro.prevision?.fruta?.variedad || "N/A"}</td>
                                             <td>-</td>
                                             <td>{registro.cantidadTraida}</td>
@@ -90,7 +109,7 @@ export default function HistoricoList() {
                             </React.Fragment>
                         ))
                     ) : (
-                        <tr><td colSpan="4" className="text-center">No hay datos</td></tr>
+                        <tr><td colSpan="5" className="text-center">No hay datos</td></tr>
                     )}
                 </tbody>
             </Table>

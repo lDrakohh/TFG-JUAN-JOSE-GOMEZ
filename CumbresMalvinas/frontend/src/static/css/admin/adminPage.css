@@ -103,3 +103,24 @@
   font-style: italic;
   color: #555;
 }
+
+.empresa-checkboxes {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  margin-bottom: 15px;
+}
+
+.checkbox-label {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  font-size: 16px;
+  cursor: pointer;
+}
+
+.registro-indent {
+  padding-left: 20px;
+  font-style: italic;
+  color: #666;
+}

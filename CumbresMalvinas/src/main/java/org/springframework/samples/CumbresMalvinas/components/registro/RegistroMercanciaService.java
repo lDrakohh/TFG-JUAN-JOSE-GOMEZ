@@ -58,8 +58,9 @@ public class RegistroMercanciaService {
         return registroMercanciaRepository.findByPrevisionId(previsionId);
     }
 
-    public List<RegistroMercancia> findByEmpresaAndFechaHistoric(Empresa empresa, LocalDate inicio, LocalDate fin) {
-        return registroMercanciaRepository.findByEmpresaAndFechaHistorico(empresa.getId(), inicio, fin);
-    }    
+    public List<RegistroMercancia> findByEmpresaAndFechaHistoric(List<Integer> empresaIds, LocalDate inicio, LocalDate fin) {
+        return registroMercanciaRepository.findByEmpresaAndFechaHistorico(empresaIds, inicio, fin);
+    }
+    
     
 }

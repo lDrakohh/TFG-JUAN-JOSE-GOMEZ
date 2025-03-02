@@ -8,6 +8,8 @@ INSERT INTO appusers(id,username,password,authority) VALUES (2,'user1','$2a$10$n
 INSERT INTO empresas(id,nombre_empresa,nombre_propietario,apellido_propietario,direccion,cif,moneda) VALUES (1,'Pepe SL','Pepe','Marin','Calle Buenavista','343434D','EUROS');
 INSERT INTO empresas(id,nombre_empresa,nombre_propietario,apellido_propietario,direccion,cif,moneda) VALUES (2,'FresGonzalez SL','Antonio','Gonzalez','Calle Barco del Rey','1111F','ZLOTY');
 INSERT INTO empresas(id,nombre_empresa,nombre_propietario,apellido_propietario,direccion,cif,moneda) VALUES (3,'Cumbres','Juan','Perez','Calle Sanchez 354','3546F','EUROS');
+INSERT INTO empresas(id,nombre_empresa,nombre_propietario,apellido_propietario,direccion,cif,moneda) VALUES (4,'Freson Palos','Romualdo','Borrallo','Calle Andres 2','252352G','EUROS');
+
 
 INSERT INTO envases(id, nombre, peso_gramos) VALUES (1, 'EXP - 5KGs', 5000);
 INSERT INTO envases(id, nombre, peso_gramos) VALUES (2, 'EXP - 4KGs', 4000);
