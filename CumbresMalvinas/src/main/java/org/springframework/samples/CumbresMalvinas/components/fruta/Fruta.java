@@ -32,6 +32,5 @@ public class Fruta extends BaseEntity {
 
     @ManyToOne(optional = true)
     @JoinColumn(name = "envase_id", nullable = true)
-    @JsonManagedReference
     private Envase envase;
 }    
