@@ -52,4 +52,9 @@ public class RegistroMercanciaService {
     public void deleteById(Integer id) {
         registroMercanciaRepository.deleteById(id);
     }
+
+    public List<RegistroMercancia> findByPrevisionId(Integer previsionId) {
+        return registroMercanciaRepository.findByPrevisionId(previsionId);
+    }
+    
 }

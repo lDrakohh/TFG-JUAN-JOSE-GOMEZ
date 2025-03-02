@@ -20,7 +20,7 @@ public class RegistroMercanciaController {
 
     @Autowired
     public RegistroMercanciaController(RegistroMercanciaService registroMercanciaService,
-                                       PrevisionService previsionService) {
+            PrevisionService previsionService) {
         this.registroMercanciaService = registroMercanciaService;
         this.previsionService = previsionService;
     }
@@ -41,11 +41,23 @@ public class RegistroMercanciaController {
 
         if (previsionOptional.isPresent()) {
             Prevision prevision = previsionOptional.get();
-            RegistroMercancia registro = registroMercanciaService.registrarRegistro(prevision, request.getCantidadTraida());
+            RegistroMercancia registro = registroMercanciaService.registrarRegistro(prevision,
+                    request.getCantidadTraida());
             return ResponseEntity.ok(registro);
         } else {
             return ResponseEntity.notFound().build();
         }
+    }
+
+    @GetMapping("/prevision/{previsionId}")
+    public ResponseEntity<List<RegistroMercancia>> getRegistrosPorPrevision(@PathVariable Integer previsionId) {
+        List<RegistroMercancia> registros = registroMercanciaService.findByPrevisionId(previsionId);
+
+        if (registros.isEmpty()) {
+            return ResponseEntity.noContent().build(); //204 
+        }
+
+        return ResponseEntity.ok(registros); //200 
     }
 
     @DeleteMapping("/{id}")
@@ -68,7 +80,7 @@ public class RegistroMercanciaController {
         }
     }
 
-    // DTO para el JSON 
+    // DTO para el JSON
     public static class RegistroRequest {
         private Integer cantidadTraida;
 

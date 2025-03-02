@@ -20,11 +20,11 @@ public class PrevisionController {
     private final FrutaService frutaService;
     private final EmpresaService empresaService;
 
-
     @Autowired
-    public PrevisionController(PrevisionService previsionService, FrutaService frutaService, EmpresaService empresaService ) {
+    public PrevisionController(PrevisionService previsionService, FrutaService frutaService,
+            EmpresaService empresaService) {
         this.previsionService = previsionService;
-        this.empresaService =empresaService;
+        this.empresaService = empresaService;
         this.frutaService = frutaService;
     }
 
@@ -55,7 +55,8 @@ public class PrevisionController {
     }
 
     @GetMapping("/empresa/{empresaId}/fecha/{fecha}")
-    public ResponseEntity<List<Prevision>> getPrevisionesByEmpresaAndFecha(@PathVariable Integer empresaId, @PathVariable String fecha) {
+    public ResponseEntity<List<Prevision>> getPrevisionesByEmpresaAndFecha(@PathVariable Integer empresaId,
+            @PathVariable String fecha) {
         LocalDate parsedFecha = LocalDate.parse(fecha);
         Empresa empresa = new Empresa();
         empresa.setId(empresaId);
@@ -63,52 +64,56 @@ public class PrevisionController {
         return ResponseEntity.ok(previsiones);
     }
 
-@PostMapping
-public ResponseEntity<?> createPrevision(@RequestBody PrevisionDTO previsionDTO) {
-    if (previsionDTO.getEmpresaId() == null) {
-        return ResponseEntity.badRequest().body("El campo empresaId es obligatorio.");
+    @PostMapping
+    public ResponseEntity<?> createPrevision(@RequestBody PrevisionDTO previsionDTO) {
+        if (previsionDTO.getEmpresaId() == null) {
+            return ResponseEntity.badRequest().body("El campo empresaId es obligatorio.");
+        }
+
+        Empresa empresa = empresaService.findById(previsionDTO.getEmpresaId())
+                .orElseThrow(() -> new RuntimeException("Fruta no encontrada"));
+
+        if (empresa == null) {
+            return ResponseEntity.badRequest().body("Empresa no encontrada.");
+        }
+
+        Fruta fruta = frutaService.findById(previsionDTO.getFrutaId())
+                .orElseThrow(() -> new RuntimeException("Fruta no encontrada"));
+
+        if (fruta == null) {
+            return ResponseEntity.badRequest().body("Fruta no encontrada.");
+        }
+
+        Prevision nuevaPrevision = new Prevision();
+        nuevaPrevision.setEmpresa(empresa);
+        nuevaPrevision.setFruta(fruta);
+        nuevaPrevision.setPrevisto(previsionDTO.getPrevisto());
+        nuevaPrevision.setPrevTraidas(0);
+        nuevaPrevision.setPrevFaltantes(previsionDTO.getPrevisto());
+        nuevaPrevision.setFecha(LocalDate.now());
+
+        previsionService.save(nuevaPrevision);
+
+        return ResponseEntity.ok(nuevaPrevision);
     }
-
-    Empresa empresa = empresaService.findById(previsionDTO.getEmpresaId())
-    .orElseThrow(() -> new RuntimeException("Fruta no encontrada"));
-    
-    if (empresa == null) {
-        return ResponseEntity.badRequest().body("Empresa no encontrada.");
-    }
-
-    Fruta fruta = frutaService.findById(previsionDTO.getFrutaId())
-        .orElseThrow(() -> new RuntimeException("Fruta no encontrada"));
-
-    if (fruta == null) {
-        return ResponseEntity.badRequest().body("Fruta no encontrada.");
-    }
-
-    Prevision nuevaPrevision = new Prevision();
-    nuevaPrevision.setEmpresa(empresa);
-    nuevaPrevision.setFruta(fruta);
-    nuevaPrevision.setPrevisto(previsionDTO.getPrevisto());
-    nuevaPrevision.setPrevTraidas(0);
-    nuevaPrevision.setPrevFaltantes(previsionDTO.getPrevisto());
-    nuevaPrevision.setFecha(LocalDate.now());
-
-    previsionService.save(nuevaPrevision);
-
-    return ResponseEntity.ok(nuevaPrevision);
-}
-
 
     @PutMapping("/{id}")
-    public ResponseEntity<Prevision> updatePrevision(@PathVariable Integer id, @RequestBody Prevision previsionDetails) {
+    public ResponseEntity<Prevision> updatePrevision(@PathVariable Integer id,
+            @RequestBody Prevision previsionDetails) {
         Optional<Prevision> previsionOptional = previsionService.findById(id);
 
         if (previsionOptional.isPresent()) {
             Prevision prevision = previsionOptional.get();
-            prevision.setPrevisto(previsionDetails.getPrevisto());
-            prevision.setPrevTraidas(previsionDetails.getPrevTraidas());
-            prevision.setPrevFaltantes(previsionDetails.getPrevFaltantes());
-            prevision.setFecha(previsionDetails.getFecha());
-            prevision.setEmpresa(previsionDetails.getEmpresa());
-            prevision.setFruta(previsionDetails.getFruta());
+
+            if (previsionDetails.getPrevisto() != null) {
+                prevision.setPrevisto(previsionDetails.getPrevisto());
+            }
+            if (previsionDetails.getPrevTraidas() != null) {
+                prevision.setPrevTraidas(previsionDetails.getPrevTraidas());
+            }
+            if (previsionDetails.getPrevFaltantes() != null) {
+                prevision.setPrevFaltantes(previsionDetails.getPrevFaltantes());
+            }
 
             Prevision previsionActualizada = previsionService.save(prevision);
             return ResponseEntity.ok(previsionActualizada);

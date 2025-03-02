@@ -49,7 +49,6 @@ export default function PrevisionList() {
               headers: { Authorization: `Bearer ${jwt}` }
             });
             const data = await res.json();
-            console.log(`Registros de empresa ${empresa.id}:`, data);
 
             nuevosRegistros[empresa.id] = Array.isArray(data) ? data : [];
           } catch (error) {
@@ -57,7 +56,6 @@ export default function PrevisionList() {
             nuevosRegistros[empresa.id] = [];
           }
         }
-        console.log("Registros actualizados en el estado:", nuevosRegistros);
         setRegistros(nuevosRegistros);
       };
       fetchRegistros();
@@ -97,15 +95,12 @@ export default function PrevisionList() {
 
       setNuevosRegistros((prev) => ({ ...prev, [previsionId]: "" }));
 
-      setTimeout(() => {
-        console.log("Cargando registros actualizados...");
-        cargarRegistros();
-      }, 500);
+      cargarPrevisiones();
+      cargarRegistros();
     } catch (error) {
       console.error("Error registrando movimiento:", error);
     }
   };
-
 
   const eliminarRegistro = async (registroId) => {
     console.log("Intentando eliminar registro con ID:", registroId);
@@ -169,6 +164,38 @@ export default function PrevisionList() {
     }
   };
 
+  const eliminarPrevision = async (previsionId) => {
+    console.log("Verificando si la previsión tiene registros...");
+
+    try {
+      const response = await fetch(`/api/v1/previsiones/${previsionId}`, {
+        method: "DELETE",
+        headers: {
+          Authorization: `Bearer ${jwt}`,
+        },
+      });
+
+      if (!response.ok) {
+        throw new Error(`Error al eliminar la previsión: ${response.statusText}`);
+      }
+
+      //Verificar si hay contenido antes de intentar parsearlo
+      let data;
+      const contentType = response.headers.get("content-type");
+      if (contentType && contentType.includes("application/json")) {
+        data = await response.json();
+      } else {
+        data = null; 
+      }
+
+      console.log("Previsión eliminada correctamente", data);
+
+      cargarPrevisiones();
+      cargarRegistros();
+    } catch (error) {
+      console.error("Error eliminando previsión:", error);
+    }
+  };
 
 
   return (
@@ -243,6 +270,11 @@ export default function PrevisionList() {
                       disabled={!nuevosRegistros[prevision.id]}
                     >
                       Registrar
+                    </Button>
+                  </td>
+                  <td>
+                    <Button size="sm" color="danger" onClick={() => eliminarPrevision(prevision.id)}>
+                      🗑️ Eliminar
                     </Button>
                   </td>
                 </tr>
