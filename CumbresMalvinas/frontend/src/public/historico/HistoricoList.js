@@ -71,14 +71,12 @@ export default function HistoricoList() {
                     {historico.previsiones && historico.previsiones.length > 0 ? (
                         historico.previsiones.map((prevision) => (
                             <React.Fragment key={`prevision-${prevision.id}`}>
-                                {/* Fila de la previsión */}
                                 <tr className="prevision-row">
                                     <td>{prevision.fecha}</td>
                                     <td>{prevision.fruta?.variedad || "N/A"}</td>
                                     <td>{prevision.previsto}</td>
                                     <td>-</td>
                                 </tr>
-                                {/* Filas de los registros asociados */}
                                 {historico.registros
                                     .filter((registro) => registro.prevision.id === prevision.id)
                                     .map((registro) => (
