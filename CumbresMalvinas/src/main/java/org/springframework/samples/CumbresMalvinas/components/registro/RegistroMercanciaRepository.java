@@ -10,6 +10,7 @@ import org.springframework.stereotype.Repository;
 
 @Repository
 public interface RegistroMercanciaRepository extends JpaRepository<RegistroMercancia, Integer> {
+    
     @Query("SELECT r FROM RegistroMercancia r WHERE r.prevision.empresa.id = :empresaId AND r.fecha = :fecha")
     List<RegistroMercancia> findByEmpresaAndFecha(@Param("empresaId") Integer empresaId, @Param("fecha") LocalDate fecha);
     
@@ -19,4 +20,9 @@ public interface RegistroMercanciaRepository extends JpaRepository<RegistroMerca
     List<RegistroMercancia> findByFecha(LocalDate hoy);
 
     List<RegistroMercancia> findByPrevisionId(Integer previsionId);
-}
+
+    @Query("SELECT r FROM RegistroMercancia r WHERE r.prevision.empresa.id IN :empresaIds AND r.fecha BETWEEN :inicio AND :fin")
+    List<RegistroMercancia> findByEmpresaAndFechaHistorico(@Param("empresaIds") List<Integer> empresaIds, 
+                                                           @Param("inicio") LocalDate inicio, 
+                                                           @Param("fin") LocalDate fin);
+}    

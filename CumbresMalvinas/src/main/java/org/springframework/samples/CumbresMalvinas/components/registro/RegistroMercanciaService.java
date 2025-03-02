@@ -7,6 +7,7 @@ import java.util.Optional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.samples.CumbresMalvinas.components.empresa.Empresa;
 import org.springframework.samples.CumbresMalvinas.components.prevision.Prevision;
 import org.springframework.samples.CumbresMalvinas.components.prevision.PrevisionService;
 
@@ -56,5 +57,10 @@ public class RegistroMercanciaService {
     public List<RegistroMercancia> findByPrevisionId(Integer previsionId) {
         return registroMercanciaRepository.findByPrevisionId(previsionId);
     }
+
+    public List<RegistroMercancia> findByEmpresaAndFechaHistoric(List<Integer> empresaIds, LocalDate inicio, LocalDate fin) {
+        return registroMercanciaRepository.findByEmpresaAndFechaHistorico(empresaIds, inicio, fin);
+    }
+    
     
 }

@@ -88,3 +88,39 @@
 .prevision-field button {
   margin-top: 10px;
 }
+
+.prevision-row {
+  font-weight: bold;
+  background-color: #f8f9fa;
+}
+
+.registro-row {
+  background-color: #e9f7ef;
+}
+
+.registro-indent td:first-child {
+  padding-left: 30px;
+  font-style: italic;
+  color: #555;
+}
+
+.empresa-checkboxes {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  margin-bottom: 15px;
+}
+
+.checkbox-label {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  font-size: 16px;
+  cursor: pointer;
+}
+
+.registro-indent {
+  padding-left: 20px;
+  font-style: italic;
+  color: #666;
+}
