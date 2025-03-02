@@ -16,11 +16,16 @@ INSERT INTO envases(id, nombre, peso_gramos) VALUES (3, 'EXP - 3KGs', 3000);
 INSERT INTO frutas(id, variedad, calidad, marca, envase_id) VALUES (1, 'Fresa', 'Primera', 'Fortuna', 1);
 INSERT INTO frutas(id, variedad, calidad, marca, envase_id) VALUES (2, 'Fresa', 'Segunda', '101', 2);
 
-INSERT INTO previsiones(id, empresa_id, fruta_id, previsto, prev_traidas, prev_faltantes, fecha) VALUES (1, 1, 1, 100, 50, 50, '2025-02-28');
-INSERT INTO previsiones(id, empresa_id, fruta_id, previsto, prev_traidas, prev_faltantes, fecha) VALUES (2, 1, 2, 225, 0, 225, '2025-02-28');
-INSERT INTO previsiones(id, empresa_id, fruta_id, previsto, prev_traidas, prev_faltantes, fecha) VALUES (3, 2, 1, 100, 50, 50, '2025-03-01');
-INSERT INTO previsiones(id, empresa_id, fruta_id, previsto, prev_traidas, prev_faltantes, fecha) VALUES (4, 2, 1, 450, 0, 450, '2025-02-28');
+INSERT INTO previsiones(id, empresa_id, fruta_id, previsto, prev_traidas, prev_faltantes, fecha) VALUES (1, 1, 1, 100, 51, 49, '2025-02-28');
+INSERT INTO previsiones(id, empresa_id, fruta_id, previsto, prev_traidas, prev_faltantes, fecha) VALUES (2, 1, 2, 225, 5, 220, '2025-02-28');
+INSERT INTO previsiones(id, empresa_id, fruta_id, previsto, prev_traidas, prev_faltantes, fecha) VALUES (3, 2, 1, 1000, 150, 850, '2025-03-01');
+INSERT INTO previsiones(id, empresa_id, fruta_id, previsto, prev_traidas, prev_faltantes, fecha) VALUES (4, 2, 1, 450, 20, 430, '2025-02-28');
 INSERT INTO previsiones(id, empresa_id, fruta_id, previsto, prev_traidas, prev_faltantes, fecha) VALUES (5, 2, 2, 100, 50, 50, '2025-02-27');
 
 
 INSERT INTO registros_mercancia(id, prevision_id, cantidad_traida,fecha) VALUES (1, 1, 50, '2025-02-28');
+INSERT INTO registros_mercancia(id, prevision_id, cantidad_traida,fecha) VALUES (2, 2, 5, '2025-02-28');
+INSERT INTO registros_mercancia(id, prevision_id, cantidad_traida,fecha) VALUES (3, 3, 150, '2025-03-01');
+INSERT INTO registros_mercancia(id, prevision_id, cantidad_traida,fecha) VALUES (4, 1, 1, '2025-02-28');
+INSERT INTO registros_mercancia(id, prevision_id, cantidad_traida,fecha) VALUES (5, 4, 20, '2025-02-28');
+INSERT INTO registros_mercancia(id, prevision_id, cantidad_traida,fecha) VALUES (6, 5, 50, '2025-02-28');

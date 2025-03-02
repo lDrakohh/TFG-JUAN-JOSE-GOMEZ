@@ -88,3 +88,18 @@
 .prevision-field button {
   margin-top: 10px;
 }
+
+.prevision-row {
+  font-weight: bold;
+  background-color: #f8f9fa;
+}
+
+.registro-row {
+  background-color: #e9f7ef;
+}
+
+.registro-indent td:first-child {
+  padding-left: 30px;
+  font-style: italic;
+  color: #555;
+}

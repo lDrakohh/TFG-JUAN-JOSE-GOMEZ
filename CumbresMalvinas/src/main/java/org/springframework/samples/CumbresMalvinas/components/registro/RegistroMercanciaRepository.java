@@ -19,4 +19,9 @@ public interface RegistroMercanciaRepository extends JpaRepository<RegistroMerca
     List<RegistroMercancia> findByFecha(LocalDate hoy);
 
     List<RegistroMercancia> findByPrevisionId(Integer previsionId);
-}
+
+    @Query("SELECT r FROM RegistroMercancia r WHERE r.prevision.empresa.id = :empresaId AND r.fecha BETWEEN :inicio AND :fin")
+    List<RegistroMercancia> findByEmpresaAndFechaHistorico(@Param("empresaId") Integer empresaId, 
+                                                           @Param("inicio") LocalDate inicio, 
+                                                           @Param("fin") LocalDate fin);
+}    
