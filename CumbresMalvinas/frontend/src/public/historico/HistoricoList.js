@@ -22,8 +22,8 @@ export default function HistoricoList() {
     const handleCheckboxChange = (e, empresaId) => {
         setEmpresasSeleccionadas((prevSeleccionadas) =>
             e.target.checked
-                ? [...prevSeleccionadas, empresaId] // Agregar si está marcado
-                : prevSeleccionadas.filter(id => id !== empresaId) // Quitar si se desmarca
+                ? [...prevSeleccionadas, empresaId]
+                : prevSeleccionadas.filter(id => id !== empresaId)
         );
     };
 
