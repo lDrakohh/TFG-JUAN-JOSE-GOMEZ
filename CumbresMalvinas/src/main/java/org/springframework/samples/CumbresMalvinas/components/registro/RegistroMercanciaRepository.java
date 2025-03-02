@@ -17,4 +17,6 @@ public interface RegistroMercanciaRepository extends JpaRepository<RegistroMerca
     List<RegistroMercancia> findByEmpresa(@Param("empresaId") Integer empresaId);
 
     List<RegistroMercancia> findByFecha(LocalDate hoy);
+
+    List<RegistroMercancia> findByPrevisionId(Integer previsionId);
 }
