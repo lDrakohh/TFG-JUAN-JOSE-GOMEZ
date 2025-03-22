@@ -20,6 +20,16 @@ export default function EstadisticasList() {
             .catch((err) => console.error("Error obteniendo estadísticas:", err));
     }, []);
 
+    const getRandomColor = () => {
+        // Función para generar un color aleatorio
+        const letters = '0123456789ABCDEF';
+        let color = '#';
+        for (let i = 0; i < 6; i++) {
+            color += letters[Math.floor(Math.random() * 16)];
+        }
+        return color;
+    };
+
     const getChartData = () => {
         if (!estadisticas) return {};
 
@@ -27,29 +37,29 @@ export default function EstadisticasList() {
         const registros = estadisticas.registros || {};
         const fechasDeSemana = estadisticas.fechasDeSemana || {};
 
-        console.log("Previsiones:", previsiones); // Verifica que previsiones tenga datos
-        console.log("Registros:", registros); // Verifica que registros tenga datos
-        console.log("Fechas de semana:", fechasDeSemana); // Verifica las fechas de semana
+        console.log("Previsiones:", previsiones);
+        console.log("Registros:", registros);
+        console.log("Fechas de semana:", fechasDeSemana);
 
-        // Obtener las semanas (claves del objeto)
         const semanas = Object.keys(fechasDeSemana);
         if (semanas.length === 0) {
             return {};
         }
 
-        // Crear los datasets para previsiones y registros
         const datasetsPrevisiones = [];
         const datasetsRegistros = [];
 
-        // Iterar sobre las empresas para crear los datasets
         for (const empresa of Object.keys(previsiones)) {
+            // Generamos un color único para cada empresa
+            const colorEmpresa = getRandomColor();
+
             // Previsiones
             const previsionesPorSemana = semanas.map(semana => previsiones[empresa][semana] || 0);
             datasetsPrevisiones.push({
                 label: `${empresa} - Previsiones`,
                 data: previsionesPorSemana,
-                backgroundColor: 'rgba(75, 192, 192, 0.2)',
-                borderColor: 'rgba(75, 192, 192, 1)',
+                backgroundColor: colorEmpresa,
+                borderColor: colorEmpresa,
                 borderWidth: 1,
             });
 
@@ -58,14 +68,14 @@ export default function EstadisticasList() {
             datasetsRegistros.push({
                 label: `${empresa} - Registros`,
                 data: registrosPorSemana,
-                backgroundColor: 'rgba(153, 102, 255, 0.2)',
-                borderColor: 'rgba(153, 102, 255, 1)',
+                backgroundColor: colorEmpresa,
+                borderColor: colorEmpresa,
                 borderWidth: 1,
             });
         }
 
         return {
-            labels: semanas.map(semana => fechasDeSemana[semana]), // Usar las fechas de la semana como labels
+            labels: semanas.map(semana => fechasDeSemana[semana]),
             datasets: [...datasetsPrevisiones, ...datasetsRegistros],
         };
     };
@@ -73,7 +83,7 @@ export default function EstadisticasList() {
     return (
         <div className="admin-page-container">
             <h1 className="text-center">Estadísticas de Previsiones y Registros por Semana</h1>
-            <div className="chart-container" style={{ width: '100%', height: '500px' }}> {/* Ajustamos el tamaño del contenedor */}
+            <div className="chart-container" style={{ width: '100%', height: '500px' }}>
                 {estadisticas ? (
                     <Bar
                         data={getChartData()}
@@ -89,14 +99,14 @@ export default function EstadisticasList() {
                             scales: {
                                 x: {
                                     ticks: {
-                                        autoSkip: false, // Aseguramos que las etiquetas de las semanas no se omitan
-                                        maxRotation: 90, // Rotamos las etiquetas para evitar que se corten
-                                        minRotation: 0, // No rotamos mucho
+                                        autoSkip: false,
+                                        maxRotation: 90,
+                                        minRotation: 0,
                                     },
                                 },
                             },
                         }}
-                        height={400}  // Esta propiedad ajusta la altura del gráfico
+                        height={400}
                     />
                 ) : (
                     <p>Cargando estadísticas...</p>
