@@ -21,6 +21,7 @@ import EnvaseEditAdmin from "./admin/envases/EnvaseEditAdmin";
 import FrutaListAdmin from "./admin/frutas/FrutaListAdmin";
 import FrutaEditAdmin from "./admin/frutas/FrutaEditAdmin";
 import HistoricoList from "./public/historico/HistoricoList";
+import EstadisticasList from "./public/estadisticas/EstadisticasList";
 
 function ErrorFallback({ error, resetErrorBoundary }) {
   return (
@@ -78,6 +79,7 @@ function App() {
         <Route path="/registros" exact element={<PrivateRoute><RegistroMercanciaForm /></PrivateRoute>} />
         <Route path="/registros/:id" exact element={<PrivateRoute><RegistroMercanciaForm /></PrivateRoute>} />
         <Route path="/historico" exact element={<PrivateRoute><HistoricoList /></PrivateRoute>} />
+        <Route path="/estadisticas" exact element={<PrivateRoute><EstadisticasList /></PrivateRoute>} />
       </>
     )
   }
