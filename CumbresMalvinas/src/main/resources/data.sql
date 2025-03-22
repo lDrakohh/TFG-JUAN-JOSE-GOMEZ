@@ -2,7 +2,11 @@
 INSERT INTO authorities(id,authority) VALUES (1,'ADMIN');
 INSERT INTO authorities(id,authority) VALUES (2,'USER');
 INSERT INTO appusers(id,username,password,authority) VALUES (1,'admin1','$2a$10$nMmTWAhPTqXqLDJTag3prumFrAJpsYtroxf0ojesFYq0k4PmcbWUS',1);
-INSERT INTO appusers(id,username,password,authority) VALUES (2,'user1','$2a$10$nMmTWAhPTqXqLDJTag3prumFrAJpsYtroxf0ojesFYq0k4PmcbWUS',1);
+INSERT INTO appusers(id,username,password,authority) VALUES (2,'Juan','$2a$10$nMmTWAhPTqXqLDJTag3prumFrAJpsYtroxf0ojesFYq0k4PmcbWUS',1);
+INSERT INTO appusers(id,username,password,authority) VALUES (3,'Sergio','$2a$10$nMmTWAhPTqXqLDJTag3prumFrAJpsYtroxf0ojesFYq0k4PmcbWUS',1);
+INSERT INTO appusers(id,username,password,authority) VALUES (4,'Rafael','$2a$10$nMmTWAhPTqXqLDJTag3prumFrAJpsYtroxf0ojesFYq0k4PmcbWUS',1);
+INSERT INTO appusers(id,username,password,authority) VALUES (5,'JoseManuel','$2a$10$nMmTWAhPTqXqLDJTag3prumFrAJpsYtroxf0ojesFYq0k4PmcbWUS',1);
+INSERT INTO appusers(id,username,password,authority) VALUES (6,'Nave','$2a$10$nMmTWAhPTqXqLDJTag3prumFrAJpsYtroxf0ojesFYq0k4PmcbWUS',2);
 
 
 INSERT INTO empresas(id,nombre_empresa,nombre_propietario,apellido_propietario,direccion,cif,moneda) VALUES (1,'Pepe SL','Pepe','Marin','Calle Buenavista','343434D','EUROS');
