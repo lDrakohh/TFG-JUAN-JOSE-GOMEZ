@@ -72,6 +72,9 @@ function AppNavbar() {
                 <NavItem>
                     <NavLink style={{ color: "white" }} id="login" tag={Link} to="/historico">Histórico</NavLink>
                 </NavItem>
+                <NavItem>
+                    <NavLink style={{ color: "white" }} id="login" tag={Link} to="/estadisticas">Estadisticas</NavLink>
+                </NavItem>
             </>
         )
         userLogout = (

@@ -9,9 +9,6 @@ import jakarta.persistence.Table;
 import org.springframework.samples.CumbresMalvinas.components.envase.Envase;
 import org.springframework.samples.CumbresMalvinas.model.BaseEntity;
 
-import com.fasterxml.jackson.annotation.JsonBackReference;
-import com.fasterxml.jackson.annotation.JsonManagedReference;
-
 import lombok.Getter;
 import lombok.Setter;
 
