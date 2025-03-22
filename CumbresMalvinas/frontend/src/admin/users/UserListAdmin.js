@@ -66,9 +66,6 @@ export default function UserListAdmin() {
       <h1 className="text-center">Users</h1>
       {alerts.map((a) => a.alert)}
       {modal}
-      <Button color="success" tag={Link} to="/users/new">
-        Add User
-      </Button>
       <div>
         <Table aria-label="users" className="mt-4">
           <thead>
