@@ -23,6 +23,8 @@ INSERT INTO previsiones(id, empresa_id, fruta_id, previsto, prev_traidas, prev_f
 INSERT INTO previsiones(id, empresa_id, fruta_id, previsto, prev_traidas, prev_faltantes, fecha) VALUES (3, 2, 1, 1000, 150, 850, '2025-03-01');
 INSERT INTO previsiones(id, empresa_id, fruta_id, previsto, prev_traidas, prev_faltantes, fecha) VALUES (4, 2, 1, 450, 20, 430, '2025-02-28');
 INSERT INTO previsiones(id, empresa_id, fruta_id, previsto, prev_traidas, prev_faltantes, fecha) VALUES (5, 2, 2, 100, 50, 50, '2025-02-27');
+INSERT INTO previsiones(id, empresa_id, fruta_id, previsto, prev_traidas, prev_faltantes, fecha) VALUES (6, 2, 2, 5000, 250, 4750, '2025-03-11');
+INSERT INTO previsiones(id, empresa_id, fruta_id, previsto, prev_traidas, prev_faltantes, fecha) VALUES (7, 3, 2, 3000, 1000, 2000, '2025-03-22');
 
 
 INSERT INTO registros_mercancia(id, prevision_id, cantidad_traida,fecha) VALUES (1, 1, 50, '2025-02-28');
@@ -31,3 +33,7 @@ INSERT INTO registros_mercancia(id, prevision_id, cantidad_traida,fecha) VALUES 
 INSERT INTO registros_mercancia(id, prevision_id, cantidad_traida,fecha) VALUES (4, 1, 1, '2025-02-28');
 INSERT INTO registros_mercancia(id, prevision_id, cantidad_traida,fecha) VALUES (5, 4, 20, '2025-02-28');
 INSERT INTO registros_mercancia(id, prevision_id, cantidad_traida,fecha) VALUES (6, 5, 50, '2025-02-28');
+INSERT INTO registros_mercancia(id, prevision_id, cantidad_traida,fecha) VALUES (7, 6, 250, '2025-03-11');
+INSERT INTO registros_mercancia(id, prevision_id, cantidad_traida,fecha) VALUES (8, 7, 300, '2025-03-22');
+INSERT INTO registros_mercancia(id, prevision_id, cantidad_traida,fecha) VALUES (9, 7, 200, '2025-03-22');
+INSERT INTO registros_mercancia(id, prevision_id, cantidad_traida,fecha) VALUES (10, 7, 500, '2025-03-22');

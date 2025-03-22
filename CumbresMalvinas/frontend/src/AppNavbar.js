@@ -72,6 +72,9 @@ function AppNavbar() {
                 <NavItem>
                     <NavLink style={{ color: "white" }} id="login" tag={Link} to="/historico">Histórico</NavLink>
                 </NavItem>
+                <NavItem>
+                    <NavLink style={{ color: "white" }} id="login" tag={Link} to="/estadisticas">Estadisticas</NavLink>
+                </NavItem>
             </>
         )
         userLogout = (
@@ -81,7 +84,7 @@ function AppNavbar() {
                 </NavItem>
                 <NavbarText style={{ color: "white" }} className="justify-content-end">{username}</NavbarText>
                 <NavItem className="d-flex">
-                    <NavLink style={{ color: "white" }} id="logout" tag={Link} to="/logout">Logout</NavLink>
+                    <NavLink style={{ color: "white" }} id="logout" tag={Link} to="/logout">Cerrar Sesión</NavLink>
                 </NavItem>
             </>
         )

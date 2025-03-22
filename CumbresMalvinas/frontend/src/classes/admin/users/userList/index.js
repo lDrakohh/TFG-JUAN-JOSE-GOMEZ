@@ -81,9 +81,6 @@ class UserList extends Component {
                 <Container style={{ marginTop: "15px" }} fluid>
 
                     <h1 className="text-center">Users</h1>
-                    <Button color="success" tag={Link} to="/users/new">
-                        Add User
-                    </Button>
                     <Table className="mt-4">
                         <thead>
                             <tr>

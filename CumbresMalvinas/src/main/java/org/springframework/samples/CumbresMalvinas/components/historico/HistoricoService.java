@@ -1,7 +1,5 @@
 package org.springframework.samples.CumbresMalvinas.components.historico;
 
-import org.springframework.http.ResponseEntity;
-import org.springframework.samples.CumbresMalvinas.components.empresa.Empresa;
 import org.springframework.samples.CumbresMalvinas.components.prevision.Prevision;
 import org.springframework.samples.CumbresMalvinas.components.prevision.PrevisionRepository;
 import org.springframework.samples.CumbresMalvinas.components.registro.RegistroMercancia;
