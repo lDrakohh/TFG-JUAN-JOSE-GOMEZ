@@ -76,7 +76,6 @@ class UserEdit extends Component {
         const authOptions = auths.map(auth => <option key={auth.id} value={auth.id}>{auth.authority}</option>);
 
         return <div>
-            {/* <AppNavbar /> */}
             <Container>
                 {title}
                 <Form onSubmit={this.handleSubmit}>

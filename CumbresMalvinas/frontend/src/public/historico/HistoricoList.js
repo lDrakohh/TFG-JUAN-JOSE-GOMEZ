@@ -10,7 +10,8 @@ export default function HistoricoList() {
     const [empresasSeleccionadas, setEmpresasSeleccionadas] = useState([]);
     const [fechaInicio, setFechaInicio] = useState("");
     const [fechaFin, setFechaFin] = useState("");
-    const [historico, setHistorico] = useState([]);
+    const [historico, setHistorico] = useState({ previsiones: [], registros: [] });
+    const [email, setEmail] = useState("");
 
     useEffect(() => {
         fetch(`/api/v1/empresas`, { headers: { Authorization: `Bearer ${jwt}` } })
@@ -47,9 +48,76 @@ export default function HistoricoList() {
             if (!response.ok) throw new Error("Error obteniendo datos");
             const data = await response.json();
 
-            setHistorico(data);
+            setHistorico({
+                previsiones: data.previsiones || [],
+                registros: data.registros || []
+            });
         } catch (error) {
             console.error("Error buscando histórico:", error);
+        }
+    };
+
+    const enviarCorreo = async () => {
+        if (!email) {
+            alert("Ingrese una dirección de correo.");
+            return;
+        }
+
+        if (historico.previsiones.length === 0 && historico.registros.length === 0) {
+            alert("No hay datos para enviar.");
+            return;
+        }
+
+        const contenido = `
+            <h2>Histórico de Previsiones y Registros</h2>
+            <table border="1" cellspacing="0" cellpadding="5">
+                <thead>
+                    <tr>
+                        <th>Fecha</th>
+                        <th>Empresa</th>
+                        <th>Fruta</th>
+                        <th>Previsto</th>
+                        <th>Traído</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    ${historico.previsiones?.map(prevision => `  
+                        <tr>
+                            <td>${prevision.fecha}</td>
+                            <td>${prevision.empresa?.nombreEmpresa || "N/A"}</td>
+                            <td>${prevision.fruta?.variedad || "N/A"}</td>
+                            <td>${prevision.previsto}</td>
+                            <td>-</td>
+                        </tr>
+                        ${historico.registros?.filter(registro => registro.prevision?.id === prevision.id)
+                .map(registro => `
+                        <tr>
+                            <td>↳ ${registro.fecha}</td>
+                            <td>${registro.prevision?.empresa?.nombreEmpresa || "N/A"}</td>
+                            <td>${registro.prevision?.fruta?.variedad || "N/A"}</td>
+                            <td>-</td>
+                            <td>${registro.cantidadTraida}</td>
+                        </tr>`).join('')}
+                    `).join('')}
+                </tbody>
+            </table>
+        `;
+
+        try {
+            const response = await fetch("/api/v1/historico/enviar-correo", {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json",
+                    Authorization: `Bearer ${jwt}`,
+                },
+                body: JSON.stringify({ email, contenido }),
+            });
+
+            const result = await response.text();
+            alert(result);
+        } catch (error) {
+            console.error("Error enviando correo:", error);
+            alert("Error enviando correo.");
         }
     };
 
@@ -85,21 +153,24 @@ export default function HistoricoList() {
                     </tr>
                 </thead>
                 <tbody>
-                    {historico.previsiones && historico.previsiones.length > 0 ? (
-                        historico.previsiones.map((prevision) => (
-                            <React.Fragment key={`prevision-${prevision.id}`}>
-                                <tr className="prevision-row">
+                    {historico.previsiones.length > 0 ? (
+                        historico.previsiones.map(prevision => (
+                            <React.Fragment key={prevision.id}>
+                                {/* Mostrar la previsión */}
+                                <tr>
                                     <td>{prevision.fecha}</td>
                                     <td>{prevision.empresa?.nombreEmpresa || "N/A"}</td>
                                     <td>{prevision.fruta?.variedad || "N/A"}</td>
                                     <td>{prevision.previsto}</td>
                                     <td>-</td>
                                 </tr>
+
+                                {/* Mostrar los registros asociados a la previsión */}
                                 {historico.registros
-                                    .filter((registro) => registro.prevision.id === prevision.id)
-                                    .map((registro) => (
-                                        <tr key={`registro-${registro.id}`} className="registro-row">
-                                            <td className="registro-indent">↳ {registro.fecha}</td>
+                                    .filter(registro => registro.prevision?.id === prevision.id)
+                                    .map(registro => (
+                                        <tr key={registro.id}>
+                                            <td>↳ {registro.fecha}</td>
                                             <td>{registro.prevision?.empresa?.nombreEmpresa || "N/A"}</td>
                                             <td>{registro.prevision?.fruta?.variedad || "N/A"}</td>
                                             <td>-</td>
@@ -113,6 +184,17 @@ export default function HistoricoList() {
                     )}
                 </tbody>
             </Table>
+            {historico.previsiones.length > 0 && (
+                <div className="email-section">
+                    <Input
+                        type="email"
+                        placeholder="Ingrese el correo"
+                        value={email}
+                        onChange={(e) => setEmail(e.target.value)}
+                    />
+                    <Button color="success" onClick={enviarCorreo}>Enviar por Correo</Button>
+                </div>
+            )}
         </div>
     );
 }
