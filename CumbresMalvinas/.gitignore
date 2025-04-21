@@ -25,3 +25,6 @@ build/
 # Archivos de OS
 .DS_Store
 Thumbs.db
+
+#Secretos
+.env
