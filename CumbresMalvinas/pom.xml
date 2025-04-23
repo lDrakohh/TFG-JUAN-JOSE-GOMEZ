@@ -67,6 +67,11 @@
             <groupId>javax.cache</groupId>
             <artifactId>cache-api</artifactId>
         </dependency>
+        <dependency>
+            <groupId>me.paulschwarz</groupId>
+            <artifactId>spring-dotenv</artifactId>
+            <version>2.3.0</version>
+        </dependency>
 
         <!-- Testing -->
         <dependency>

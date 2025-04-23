@@ -10,6 +10,7 @@ import static org.springframework.security.config.Customizer.withDefaults;
 import javax.sql.DataSource;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.HttpMethod;
@@ -38,6 +39,9 @@ public class SecurityConfiguration {
 	@Autowired
 	private AuthEntryPointJwt unauthorizedHandler;
 
+	@Value("${spring.profiles.active:}")
+	private String activeProfile;
+
 	@Autowired
 	DataSource dataSource;
 
@@ -58,8 +62,8 @@ public class SecurityConfiguration {
 			.requestMatchers( "/", "/oups","/api/v1/auth/**","/v3/api-docs/**","/swagger-ui.html","/swagger-ui/**").permitAll()												
 			.requestMatchers("/api/v1/developers").permitAll()												
 			.requestMatchers(AntPathRequestMatcher.antMatcher("+/**")).hasAuthority(ADMIN)
-			.requestMatchers("/api/v1/previsiones").hasAuthority(ADMIN)
-			.requestMatchers(AntPathRequestMatcher.antMatcher("/api/v1/previsiones/**")).hasAuthority(ADMIN)
+			.requestMatchers("/api/v1/previsiones").permitAll()
+			.requestMatchers(AntPathRequestMatcher.antMatcher("/api/v1/previsiones/**")).permitAll()
 			.requestMatchers(AntPathRequestMatcher.antMatcher(HttpMethod.GET,"/api/v1/previsiones/**")).permitAll()	
 			.requestMatchers(AntPathRequestMatcher.antMatcher(HttpMethod.POST,"/api/v1/previsiones/**")).permitAll()	
 			.requestMatchers(AntPathRequestMatcher.antMatcher(HttpMethod.PUT,"/api/v1/previsiones/**")).permitAll()	
@@ -68,7 +72,11 @@ public class SecurityConfiguration {
 			.requestMatchers("/frutas/**").hasAuthority(ADMIN)
 			.requestMatchers("/api/v1/frutas").hasAuthority(ADMIN)
 			.requestMatchers(AntPathRequestMatcher.antMatcher("/api/v1/frutas/**")).hasAuthority(ADMIN)
-			.requestMatchers(AntPathRequestMatcher.antMatcher("/api/v1/registros/**")).hasAuthority(ADMIN)
+			.requestMatchers(AntPathRequestMatcher.antMatcher(HttpMethod.GET,"/api/v1/frutas/**")).hasAuthority(ADMIN)
+			.requestMatchers(AntPathRequestMatcher.antMatcher(HttpMethod.POST,"/api/v1/frutas/**")).hasAuthority(ADMIN)
+			.requestMatchers(AntPathRequestMatcher.antMatcher(HttpMethod.PUT,"/api/v1/frutas/**")).hasAuthority(ADMIN)
+			.requestMatchers(AntPathRequestMatcher.antMatcher(HttpMethod.DELETE,"/api/v1/frutas/**")).hasAuthority(ADMIN)
+			.requestMatchers(AntPathRequestMatcher.antMatcher("/api/v1/registros/**")).permitAll()
 			.requestMatchers(AntPathRequestMatcher.antMatcher(HttpMethod.GET,"/api/v1/registros/**")).permitAll()
 			.requestMatchers(AntPathRequestMatcher.antMatcher(HttpMethod.POST,"/api/v1/registros/**")).permitAll()	
 			.requestMatchers(AntPathRequestMatcher.antMatcher(HttpMethod.PUT,"/api/v1/registros/**")).permitAll()
@@ -76,7 +84,11 @@ public class SecurityConfiguration {
 			.requestMatchers(AntPathRequestMatcher.antMatcher("/h2-console/**")).permitAll()
 			.anyRequest().authenticated())					
 			
-			.addFilterBefore(authenticationJwtTokenFilter(), UsernamePasswordAuthenticationFilter.class);		
+			.addFilterBefore(authenticationJwtTokenFilter(), UsernamePasswordAuthenticationFilter.class);
+			
+			if (!"test".equals(activeProfile)) {
+				http.addFilterBefore(authenticationJwtTokenFilter(), UsernamePasswordAuthenticationFilter.class);
+			} 
 		return http.build();
 	}
 
