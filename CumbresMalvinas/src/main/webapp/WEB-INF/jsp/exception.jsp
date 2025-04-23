@@ -4,11 +4,8 @@
 
 <CumbresMalvinas:layout pageName="error">
 
-    <spring:url value="/resources/images/pets.png" var="petsImage"/>
-    <img src="${petsImage}"/>
+    <h2>UPS, creo que ha habido un error, inténtalo de nuevo...</h2>
 
-    <h2>Something happened...</h2>
-
-    <p>${exception.message}</p>
+    <c:out value="${exception.message}" />
 
 </CumbresMalvinas:layout>
