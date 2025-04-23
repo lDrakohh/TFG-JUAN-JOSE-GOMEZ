@@ -61,5 +61,4 @@ public class RegistroMercanciaService {
         return registroMercanciaRepository.findByEmpresaAndFechaHistorico(empresaIds, inicio, fin);
     }
     
-    
 }
