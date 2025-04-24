@@ -29,17 +29,6 @@ public class FrutaService {
         return frutaRepository.save(fruta);
     }
 
-    public Fruta update(int id, Fruta fruta) {
-        if (fruta.getId() == null || !frutaRepository.existsById(id)) {
-            throw new NoSuchElementException("Fruta no encontrada");
-        }
-    
-        fruta.setId(id);
-    
-        return frutaRepository.save(fruta);
-    }
-    
-
     public void deleteById(Integer id) {
         frutaRepository.deleteById(id);
     }

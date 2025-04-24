@@ -89,29 +89,6 @@ public class FrutaServiceTest {
     }
 
     @Test
-    void testUpdate() {
-        Fruta existing = new Fruta();
-        existing.setId(1);
-        existing.setVariedad("Marisma");
-        existing.setCalidad("Primera");
-        existing.setMarca("Cumbres");
-
-        Fruta updated = new Fruta();
-        updated.setId(1);
-        updated.setVariedad("Marisma Nueva");
-        updated.setCalidad("Extra");
-        updated.setMarca("Cumbres");
-
-        when(frutaRepository.existsById(1)).thenReturn(true);
-        when(frutaRepository.save(updated)).thenReturn(updated);
-
-        Fruta result = frutaService.update(1, updated);
-        assertNotNull(result);
-        assertEquals("Marisma Nueva", result.getVariedad());
-        assertEquals("Extra", result.getCalidad());
-    }
-
-    @Test
     void testSaveExistingFrutaThrowsException() {
         Fruta fruta = new Fruta();
         fruta.setId(1);
@@ -134,22 +111,6 @@ public class FrutaServiceTest {
         doThrow(new NoSuchElementException("Fruta no encontrada")).when(frutaRepository).deleteById(id);
 
         assertThrows(NoSuchElementException.class, () -> frutaService.deleteById(id));
-    }
-
-    @Test
-    void testUpdateNonExistingFrutaThrowsException() {
-        Fruta updated = new Fruta();
-        updated.setId(99);
-        updated.setVariedad("Desconocida");
-
-        when(frutaRepository.existsById(99)).thenReturn(false);
-
-        assertThrows(NoSuchElementException.class, () -> {
-            if (!frutaRepository.existsById(99)) {
-                throw new NoSuchElementException("Fruta no encontrada");
-            }
-            frutaService.update(99, updated);
-        });
     }
 
 }
