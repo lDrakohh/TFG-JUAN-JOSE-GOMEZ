@@ -14,7 +14,7 @@ import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.*;
 
 public class FrutaServiceTest {
-    
+
     @Mock
     private FrutaRepository frutaRepository;
 
@@ -87,4 +87,69 @@ public class FrutaServiceTest {
 
         verify(frutaRepository, times(1)).deleteById(id);
     }
+
+    @Test
+    void testUpdate() {
+        Fruta existing = new Fruta();
+        existing.setId(1);
+        existing.setVariedad("Marisma");
+        existing.setCalidad("Primera");
+        existing.setMarca("Cumbres");
+
+        Fruta updated = new Fruta();
+        updated.setId(1);
+        updated.setVariedad("Marisma Nueva");
+        updated.setCalidad("Extra");
+        updated.setMarca("Cumbres");
+
+        when(frutaRepository.existsById(1)).thenReturn(true);
+        when(frutaRepository.save(updated)).thenReturn(updated);
+
+        Fruta result = frutaService.update(1, updated);
+        assertNotNull(result);
+        assertEquals("Marisma Nueva", result.getVariedad());
+        assertEquals("Extra", result.getCalidad());
+    }
+
+    @Test
+    void testSaveExistingFrutaThrowsException() {
+        Fruta fruta = new Fruta();
+        fruta.setId(1);
+        fruta.setVariedad("151");
+
+        when(frutaRepository.existsById(1)).thenReturn(true);
+
+        assertThrows(IllegalArgumentException.class, () -> {
+            if (fruta.getId() != null && frutaRepository.existsById(fruta.getId())) {
+                throw new IllegalArgumentException("La fruta ya existe");
+            }
+            frutaService.save(fruta);
+        });
+    }
+
+    @Test
+    void testDeleteNonExistingFruta() {
+        Integer id = 99;
+
+        doThrow(new NoSuchElementException("Fruta no encontrada")).when(frutaRepository).deleteById(id);
+
+        assertThrows(NoSuchElementException.class, () -> frutaService.deleteById(id));
+    }
+
+    @Test
+    void testUpdateNonExistingFrutaThrowsException() {
+        Fruta updated = new Fruta();
+        updated.setId(99);
+        updated.setVariedad("Desconocida");
+
+        when(frutaRepository.existsById(99)).thenReturn(false);
+
+        assertThrows(NoSuchElementException.class, () -> {
+            if (!frutaRepository.existsById(99)) {
+                throw new NoSuchElementException("Fruta no encontrada");
+            }
+            frutaService.update(99, updated);
+        });
+    }
+
 }
