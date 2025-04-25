@@ -93,9 +93,9 @@ class UserRestController {
 		RestPreconditions.checkNotNull(userService.findUser(id), "User", "ID", id);
 		if (userService.findCurrentUser().getId() != id) {
 			userService.deleteUser(id);
-			return new ResponseEntity<>(new MessageResponse("User deleted!"), HttpStatus.OK);
+			return new ResponseEntity<>(new MessageResponse("Usuario borrado"), HttpStatus.OK);
 		} else
-			throw new AccessDeniedException("You can't delete yourself!");
+			throw new AccessDeniedException("¡No puedes borrar tu propia cuenta!");
 	}
 
 }
