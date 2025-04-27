@@ -32,7 +32,6 @@ public class EstadisticasController {
         List<Prevision> previsiones = previsionRepository.findAll();
         List<RegistroMercancia> registros = registroMercanciaRepository.findAll();
     
-        // Verificar que estamos obteniendo las previsiones y los registros correctamente
         System.out.println("Previsiones: " + previsiones);
         System.out.println("Registros: " + registros);
     
@@ -68,10 +67,6 @@ public class EstadisticasController {
                 .computeIfAbsent(registro.getPrevision().getEmpresa().getNombreEmpresa(), k -> new HashMap<>())
                 .put(semana, registrosPorEmpresaYSemana.getOrDefault(registro.getPrevision().getEmpresa().getNombreEmpresa(), new HashMap<>()).getOrDefault(semana, 0) + registro.getCantidadTraida());
         }
-    
-        System.out.println("Previsiones por empresa y semana: " + previsionesPorEmpresaYSemana);
-        System.out.println("Registros por empresa y semana: " + registrosPorEmpresaYSemana);
-        System.out.println("Fechas de semana: " + fechasDeSemana);
     
         resumen.put("previsiones", previsionesPorEmpresaYSemana);
         resumen.put("registros", registrosPorEmpresaYSemana);
