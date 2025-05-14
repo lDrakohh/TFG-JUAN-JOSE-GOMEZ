@@ -44,7 +44,7 @@ class UserList extends Component {
         const { users, isLoading } = this.state;
 
         if (isLoading) {
-            return <p>Loading...</p>;
+            return <p>Cargando...</p>;
         }
 
         const userList = users.map((user) => {
@@ -60,14 +60,14 @@ class UserList extends Component {
                                 tag={Link}
                                 to={"/users/" + user.id}
                             >
-                                Edit
+                                Editar
                             </Button>
                             <Button
                                 size="sm"
                                 color="danger"
                                 onClick={() => this.remove(user.id)}
                             >
-                                Delete
+                                Borrar
                             </Button>
                         </ButtonGroup>
                     </td>
@@ -80,13 +80,13 @@ class UserList extends Component {
                 {/* <AppNavbar /> */}
                 <Container style={{ marginTop: "15px" }} fluid>
 
-                    <h1 className="text-center">Users</h1>
+                    <h1 className="text-center">Usuarios</h1>
                     <Table className="mt-4">
                         <thead>
                             <tr>
-                                <th>Username</th>
-                                <th>Authority</th>
-                                <th>Actions</th>
+                                <th>Usuario</th>
+                                <th>Autoridad</th>
+                                <th>Acciones</th>
                             </tr>
                         </thead>
                         <tbody>{userList}</tbody>

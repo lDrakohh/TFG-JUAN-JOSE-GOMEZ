@@ -203,7 +203,7 @@ public class RegistroServiceTest {
         Mockito.when(registroMercanciaRepository.save(Mockito.any(RegistroMercancia.class)))
                 .thenReturn(registro);
 
-        RegistroMercancia result = registroMercanciaService.registrarRegistro(prevision, cantidadTraida);
+        registroMercanciaService.registrarRegistro(prevision, cantidadTraida);
 
         assertEquals(150, prevision.getPrevTraidas());
         assertEquals(150, prevision.getPrevFaltantes());

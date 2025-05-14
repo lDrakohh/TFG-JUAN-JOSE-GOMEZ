@@ -60,6 +60,7 @@ function App() {
           <Route path="/envases/:id" exact element={<PrivateRoute><EnvaseEditAdmin /></PrivateRoute>} />
           <Route path="/frutas" exact element={<PrivateRoute><FrutaListAdmin /></PrivateRoute>} />
           <Route path="/frutas/:id" exact element={<PrivateRoute><FrutaEditAdmin /></PrivateRoute>} />
+          <Route path="/docs" element={<SwaggerDocs />} />
         </>)
     }
   })
@@ -80,6 +81,7 @@ function App() {
         <Route path="/registros/:id" exact element={<PrivateRoute><RegistroMercanciaForm /></PrivateRoute>} />
         <Route path="/historico" exact element={<PrivateRoute><HistoricoList /></PrivateRoute>} />
         <Route path="/estadisticas" exact element={<PrivateRoute><EstadisticasList /></PrivateRoute>} />
+        <Route path="/docs" element={<SwaggerDocs />} />
       </>
     )
   }
@@ -90,7 +92,6 @@ function App() {
         <AppNavbar />
         <Routes>
           <Route path="/" exact={true} element={<Home />} />
-          <Route path="/docs" element={<SwaggerDocs />} />
           {publicRoutes}
           {userRoutes}
           {adminRoutes}

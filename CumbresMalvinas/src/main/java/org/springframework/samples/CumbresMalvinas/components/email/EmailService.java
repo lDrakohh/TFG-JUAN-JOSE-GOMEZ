@@ -37,7 +37,7 @@ public class EmailService {
             helper.setFrom(REMITENTE);
             helper.setTo(destinatario);
             helper.setSubject(asunto);
-            helper.setText(contenido, true); // true → para HTML
+            helper.setText(contenido, true); // true para HTML
 
             mailSender.send(message);
             logger.info("Correo enviado correctamente a {}", destinatario);

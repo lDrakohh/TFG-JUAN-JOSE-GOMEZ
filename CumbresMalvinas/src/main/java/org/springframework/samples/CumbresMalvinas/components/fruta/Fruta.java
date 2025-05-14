@@ -28,6 +28,6 @@ public class Fruta extends BaseEntity {
     private String marca;
 
     @ManyToOne(optional = true)
-    @JoinColumn(name = "envase_id", nullable = true)
+    @JoinColumn(name = "envase_id", nullable = false)
     private Envase envase;
 }    

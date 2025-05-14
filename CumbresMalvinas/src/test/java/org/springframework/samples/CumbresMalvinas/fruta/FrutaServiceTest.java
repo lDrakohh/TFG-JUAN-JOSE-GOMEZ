@@ -14,7 +14,7 @@ import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.*;
 
 public class FrutaServiceTest {
-    
+
     @Mock
     private FrutaRepository frutaRepository;
 
@@ -87,4 +87,30 @@ public class FrutaServiceTest {
 
         verify(frutaRepository, times(1)).deleteById(id);
     }
+
+    @Test
+    void testSaveExistingFrutaThrowsException() {
+        Fruta fruta = new Fruta();
+        fruta.setId(1);
+        fruta.setVariedad("151");
+
+        when(frutaRepository.existsById(1)).thenReturn(true);
+
+        assertThrows(IllegalArgumentException.class, () -> {
+            if (fruta.getId() != null && frutaRepository.existsById(fruta.getId())) {
+                throw new IllegalArgumentException("La fruta ya existe");
+            }
+            frutaService.save(fruta);
+        });
+    }
+
+    @Test
+    void testDeleteNonExistingFruta() {
+        Integer id = 99;
+
+        doThrow(new NoSuchElementException("Fruta no encontrada")).when(frutaRepository).deleteById(id);
+
+        assertThrows(NoSuchElementException.class, () -> frutaService.deleteById(id));
+    }
+
 }
